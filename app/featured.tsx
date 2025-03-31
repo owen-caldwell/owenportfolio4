@@ -20,10 +20,10 @@ export default function Featured() {
     },
     {
       description:
-        "[www.finn-crawford.com](https://www.finn-crawford.com)",
+        "[www.finn-crawford.com](https://finn-crawford.com)",
       image: "/featured/finncrawford.png",
       alt: "a portfolio website with a gallery of images.",
-      url: "https://www.finn-crawford.com",
+      url: "https://finn-crawford.com",
     },
     {
       description:
@@ -35,7 +35,7 @@ export default function Featured() {
   ];
 
   return (
-    <div className="flex flex-col gap-y-16">
+    <div className="flex flex-col gap-y-16 md:ml-10">
       {links.map((link) => (
         <div key={link.url} className="flex flex-col items-start md:p-3">
           <Link href={link.url}>
@@ -44,7 +44,7 @@ export default function Featured() {
               height={1000}
               alt={link.alt}
               src={link.image}
-              className="rounded-md w-auto max-h-[50vh]"
+              className="rounded-md w-auto max-w-[45vw]"
             />
           </Link>
           <div className="px-4 md:px-6 relative -top-2 md:-top-4">
