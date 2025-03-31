@@ -1,66 +1,62 @@
-import './globals.css';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import { Analytics } from '@vercel/analytics/react';
-import { unstable_ViewTransition as ViewTransition } from 'react';
-
-const inter = Inter({ subsets: ['latin'] });
+import "./globals.css";
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+import { Libre_Baskerville } from "next/font/google";
+import { Name } from "./name";
+// import Footer from "./components/footer"
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://leerob.com'),
+  metadataBase: new URL("https://owencaldwell.info"),
   alternates: {
-    canonical: '/'
+    canonical: "/",
   },
   title: {
-    default: 'Lee Robinson',
-    template: '%s | Lee Robinson'
+    default: "Owen Caldwell",
+    template: "%s | Owen Caldwell",
   },
-  description: 'Frontend developer, optimist, community builder.'
+  description: "Web designer and student living in New York.",
 };
 
+const baskerville = Libre_Baskerville({
+  variable: "--font-baskerville",
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  display: "swap",
+});
+const geistSans = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+});
+
+const cx = (...classes: string[]) => classes.filter(Boolean).join(" ");
+
 export default function RootLayout({
-  children
-}: Readonly<{
+  children,
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" className={`${inter.className}`}>
-      <body className="antialiased tracking-tight">
-        <div className="min-h-screen flex flex-col justify-between pt-0 md:pt-8 p-8 dark:bg-zinc-950 bg-white text-gray-900 dark:text-zinc-200">
-          <main className="max-w-[60ch] mx-auto w-full space-y-6">
-            <ViewTransition name="test">{children}</ViewTransition>
-          </main>
-          <Footer />
-          <Analytics />
-        </div>
+    <html
+      lang="en"
+      className={cx(
+        "text-[#363636] bg-white dark:text-[#ededed] dark:bg-[#141414]",
+        geistSans.variable,
+        geistMono.variable,
+        baskerville.variable
+      )}
+    >
+      <body className="antialiased mx-4 md:mx-10">
+        <main className="flex flex-col min-w-0 h-screen font-[family-name:var(--font-geist-sans)]">
+          <Name />
+          {children}
+        </main>
       </body>
     </html>
-  );
-}
-
-function Footer() {
-  const links = [
-    { name: '@leerob', url: 'https://x.com/leerob' },
-    { name: 'youtube', url: 'https://www.youtube.com/@leerob' },
-    { name: 'linkedin', url: 'https://www.linkedin.com/in/leeerob' },
-    { name: 'github', url: 'https://github.com/leerob' }
-  ];
-
-  return (
-    <footer className="mt-12 text-center">
-      <div className="flex justify-center space-x-4 tracking-tight">
-        {links.map((link) => (
-          <a
-            key={link.name}
-            href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-400 dark:text-gray-500 hover:text-blue-500 transition-colors duration-200"
-          >
-            {link.name}
-          </a>
-        ))}
-      </div>
-    </footer>
   );
 }

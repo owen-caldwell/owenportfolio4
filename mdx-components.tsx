@@ -27,7 +27,7 @@ const components = {
   ),
   h4: (props: HeadingProps) => <h4 className="font-medium" {...props} />,
   p: (props: ParagraphProps) => (
-    <p className="text-gray-800 dark:text-zinc-300 leading-snug" {...props} />
+    <p className="text-gray-800 dark:text-zinc-300" {...props} />
   ),
   ol: (props: ListProps) => (
     <ol
@@ -37,7 +37,7 @@ const components = {
   ),
   ul: (props: ListProps) => (
     <ul
-      className="text-gray-800 dark:text-zinc-300 list-disc pl-5 space-y-1"
+      className="text-gray-800 dark:text-zinc-300 list-none space-y-1"
       {...props}
     />
   ),

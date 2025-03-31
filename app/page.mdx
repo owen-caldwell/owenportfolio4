@@ -1,24 +1,27 @@
-import { NameTransition } from './name';
+import { Name } from "./name";
+import Featured from "./featured";
+import Image from "next/image";
+import Link from "next/link";
 
-<NameTransition />
+<div className="grid md:grid-cols-2 mt-12 md:mt-20">
+  <div className="flex flex-col border-b pb-10 md:border-none max-w-[500px] mx-auto md:mx-0 justify-center">
+    <div className="leading-[1.5] font-[family-name:var(--font-baskerville)]">
+      Designer and student who builds cool websites for his friends.
+      Right now he's working on a final [senior project](/seniorproject)
+      and redesigning [FDA nutrition labels](/fda-redesign) for class.
+    </div>
 
-I'm a developer, optimist, and community builder. I work at [Vercel](/work), where I teach the [Next.js](/n/stack) community, an open-source web framework built with React.
+    <div className="pt-12 pb-4 pl-1">Work</div>
 
-## Writing
+    - [Senior Project](/seniorproject)
+    - [Redesigning Nutrition Facts](/fda-redesign)
+    - [La Cima Charter School](/lacima)
+    - [Finn Crawford](https://www.finn-crawford.com)
 
-- [On Developer Experience](/n/dx)
-- [On Developer Marketing](/n/developer-marketing)
-- [On Developer Relations](/n/devrel)
-- [On Developer Products](/n/devtools)
-- [On Community Moderation](/n/moderation)
-- [Rust is Eating JavaScript](/n/rust)
-- [Product Engineers](/n/product-engineers)
-- [My Stack](/n/stack)
-- [Understanding AI](/n/ai)
-- [Personal Software](/n/personal-software)
+    <div className="text-sm pt-12 pb-4 pl-1">This constructed recently using leerob's open source [portfolio project](https://github.com/leerob/site).</div>
 
-## Code
-
-- [next-saas-starter](https://github.com/leerob/next-saas-starter)
-- [next-email-client](https://github.com/leerob/next-email-client)
-- [next-music-player](https://github.com/leerob/next-music-player)
+  </div>
+  <div className="pt-10 md:overflow-y-scroll md:max-h-screen md:fixed md:right-4 md:top-0 md:max-w-[50vw] mx-auto md:mx-0">
+  <Featured/>
+  </div>
+</div>

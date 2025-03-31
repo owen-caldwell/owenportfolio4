@@ -1,13 +1,13 @@
-import { promises as fs } from 'fs';
-import path from 'path';
+import { promises as fs } from "fs";
+import path from "path";
 
-async function getNoteSlugs(dir: string) {
+async function getSlugs(dir: string) {
   const entries = await fs.readdir(dir, {
     recursive: true,
     withFileTypes: true,
   });
   return entries
-    .filter((entry) => entry.isFile() && entry.name === 'page.mdx')
+    .filter((entry) => entry.isFile() && entry.name === "page.mdx")
     .map((entry) => {
       const relativePath = path.relative(
         dir,
@@ -15,22 +15,23 @@ async function getNoteSlugs(dir: string) {
       );
       return path.dirname(relativePath);
     })
-    .map((slug) => slug.replace(/\\/g, '/'));
+    .map((slug) => slug.replace(/\\/g, "/"));
 }
 
 export default async function sitemap() {
-  const notesDirectory = path.join(process.cwd(), 'app', 'n');
-  const slugs = await getNoteSlugs(notesDirectory);
+  const directory = path.join(process.cwd(), "app", "seniorproject");
+  const slugs = await getSlugs(directory);
 
-  const notes = slugs.map((slug) => ({
-    url: `https://leerob.com/n/${slug}`,
+  const seniorproject = slugs.map((slug) => ({
+    url: `https://owencaldwell.info/seniorproject/${slug}`,
     lastModified: new Date().toISOString(),
   }));
 
-  const routes = ['', '/work'].map((route) => ({
-    url: `https://leerob.com${route}`,
+  // Add more routes later!!
+  const routes = [""].map((route) => ({
+    url: `https://owencaldwell.info${route}`,
     lastModified: new Date().toISOString(),
   }));
 
-  return [...routes, ...notes];
+  return [...routes, ...seniorproject];
 }
