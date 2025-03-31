@@ -47,7 +47,7 @@ export default function Featured() {
               className="rounded-md w-auto max-h-[50vh]"
             />
           </Link>
-          <div className="px-6 relative -top-4">
+          <div className="px-4 md:px-6 relative -top-2 md:-top-4">
             <ReactMarkdown>{link.description}</ReactMarkdown>
           </div>
         </div>
