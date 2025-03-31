@@ -44,7 +44,7 @@ export default function Featured() {
               height={1000}
               alt={link.alt}
               src={link.image}
-              className="rounded-md w-auto max-w-[45vw]"
+              className="rounded-md w-auto md:max-w-[45vw]"
             />
           </Link>
           <div className="px-4 md:px-6 relative -top-2 md:-top-4">
