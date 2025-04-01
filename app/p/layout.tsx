@@ -5,5 +5,9 @@ export default function BlogLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <ViewTransition>{children}</ViewTransition>;
+  return (
+    <ViewTransition>
+      <div className="max-w-[600px] prose pb-20 mx-auto">{children}</div>
+    </ViewTransition>
+  );
 }

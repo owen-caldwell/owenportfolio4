@@ -182,11 +182,11 @@ ul {
 }
 
 .prose p {
-  @apply my-4 text-neutral-800 dark:text-neutral-200 font-[family-name:var(--font-baskerville)];
+  @apply my-4 text-neutral-800 dark:text-neutral-200 leading-6 font-[family-name:var(--font-baskerville)];
 }
 
 .prose h1 {
-  @apply text-4xl font-bold tracking-normal leading-12 mt-6 mb-2 font-[family-name:var(--font-baskerville)];
+  @apply text-4xl font-bold tracking-tight mt-6 mb-2 font-[family-name:var(--font-baskerville)];
 }
 
 .prose h2 {

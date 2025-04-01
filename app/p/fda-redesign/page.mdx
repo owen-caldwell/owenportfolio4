@@ -1,42 +1,45 @@
+export const title = "FDA Redesign";
+export const date = "March 12th, 2025";
+export const slug = "fda-redesign";
+
 export const metadata = {
-  title: "FDA Redesign",
+  title: title,
   alternates: {
-    canonical: "/p/fda-redesign",
+    canonical: `/p/${slug}`,
   },
 };
 
-<div className="max-w-2xl prose pb-20">
-    # FDA Nutrition Labels
-    
-    ![Nutrition Facts Label](/fda-redesign/nutrition-facts-label.jpg)
-
-    ## Proposal
-    
-    *March 12th* - FDA nutrition labels take time to read and are not 
-    intuitive to understand for most consumers. Many 
-    simply rely on companies to make enticing health 
-    promises through advertising and on packaging. There’s 
-    no doubt nutrition is a complex topic, U.S. educational 
-    institutions do little to equip consumers with the tools 
-    they need to make informed decisions.
-
-    > “The U.S. faces an ever-growing epidemic of preventable diet-related 
-    chronic diseases such as cardiovascular disease, diabetes, and obesity. 
-    Racial and ethnic minority groups, those with lower socioeconomic 
-    status, those living in rural areas, and other underserved communities 
-    disproportionately experience these diet-related chronic diseases. 
-    Improving nutrition is one of the most effective public health 
-    interventions for reducing these and other chronic illnesses and 
-    premature death.” – Food and Drug Administration, 2025.
-
-
-    I suspect that many Americans want to learn more about their food and 
-    know that nutrition labeling is a piece to that puzzle. I want to improve 
-    the legibility of these labels, and provide a knowledge base where 
-    consumers can learn about nutrition, compare products and ingredients, 
-    and get notified about potentially harmful foods.
-
-    
-
-
+<div className="pt-12 pb-6">
+  <h1>{title}</h1>
+  <div className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
+    {date}
+  </div>
 </div>
+
+![Nutrition Facts Label](/fda-redesign/nutrition-facts-label.jpg)
+<small> The current design by the FDA, as of 2016</small>
+
+## Proposal
+
+_March 12th_ - FDA nutrition labels take time to read and are not
+intuitive to understand for most consumers. Many
+simply rely on companies to make enticing health
+promises through advertising and on packaging. There’s
+no doubt nutrition is a complex topic, U.S. educational
+institutions do little to equip consumers with the tools
+they need to make informed decisions.
+
+> “The U.S. faces an ever-growing epidemic of preventable diet-related
+> chronic diseases such as cardiovascular disease, diabetes, and obesity.
+> Racial and ethnic minority groups, those with lower socioeconomic
+> status, those living in rural areas, and other underserved communities
+> disproportionately experience these diet-related chronic diseases.
+> Improving nutrition is one of the most effective public health
+> interventions for reducing these and other chronic illnesses and
+> premature death.” – Food and Drug Administration, 2025.
+
+I suspect that many Americans want to learn more about their food and
+know that nutrition labeling is a piece to that puzzle. I want to improve
+the legibility of these labels, and provide a knowledge base where
+consumers can learn about nutrition, compare products and ingredients,
+and get notified about potentially harmful foods.
