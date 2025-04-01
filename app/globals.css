@@ -186,11 +186,11 @@ ul {
 }
 
 .prose h1 {
-  @apply text-4xl font-bold tracking-tight mt-6 mb-2 font-[family-name:var(--font-baskerville)];
+  @apply text-4xl font-bold tracking-normal leading-12 mt-6 mb-2 font-[family-name:var(--font-baskerville)];
 }
 
 .prose h2 {
-  @apply text-xl font-normal tracking-tight mt-6 mb-2;
+  @apply text-xl font-medium tracking-tight mt-6 mb-2;
 }
 
 .prose h3 {

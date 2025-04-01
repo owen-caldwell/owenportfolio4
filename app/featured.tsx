@@ -9,7 +9,7 @@ export default function Featured() {
         "*Learning to Paint* is a generative art installation.",
       image: "/featured/seniorproject.png",
       alt: "A complex scramble of white dots on a black screen.",
-      url: "/seniorproject",
+      url: "/p/seniorproject",
     },
     {
       description:

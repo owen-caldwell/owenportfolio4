@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Libre_Baskerville } from "next/font/google";
 import { Name } from "./name";
+import { unstable_ViewTransition as ViewTransition } from "react";
 // import Footer from "./components/footer"
 
 export const metadata: Metadata = {
@@ -54,7 +55,7 @@ export default function RootLayout({
       <body className="antialiased mx-4 md:mx-10">
         <main className="flex flex-col min-w-0 h-screen font-[family-name:var(--font-geist-sans)]">
           <Name />
-          {children}
+          <ViewTransition>{children}</ViewTransition>
         </main>
       </body>
     </html>
