@@ -178,7 +178,7 @@ ul {
 
 .prose img {
   /* Don't apply styles to next/image */
-  @apply m-0;
+  @apply my-4;
 }
 
 .prose p {
@@ -202,11 +202,11 @@ ul {
 }
 
 .prose strong {
-  @apply font-medium;
+  @apply font-bold;
 }
 
 .prose ul {
-  @apply list-disc pl-6 leading-4;
+  @apply list-disc pl-6 leading-6;
 }
 .prose ul a {
   @apply font-[family-name:var(--font-geist-sans)];
@@ -220,13 +220,6 @@ ul {
   /* Override removing top margin, causing layout shift */
   margin-top: 1.25em !important;
   margin-bottom: 1.25em !important;
-}
-
-table {
-  display: block;
-  max-width: fit-content;
-  overflow-x: auto;
-  white-space: nowrap;
 }
 
 .title {
