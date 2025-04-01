@@ -19,11 +19,20 @@ async function getSlugs(dir: string) {
 }
 
 export default async function sitemap() {
-  const directory = path.join(process.cwd(), "app", "seniorproject");
+  const directory = path.join(
+    process.cwd(),
+    "app",
+    "seniorproject",
+    "acc-final-project"
+  );
   const slugs = await getSlugs(directory);
 
   const seniorproject = slugs.map((slug) => ({
     url: `https://owencaldwell.info/seniorproject/${slug}`,
+    lastModified: new Date().toISOString(),
+  }));
+  const accfinalproject = slugs.map((slug) => ({
+    url: `https://owencaldwell.info/acc-final-project/${slug}`,
     lastModified: new Date().toISOString(),
   }));
 
@@ -33,5 +42,5 @@ export default async function sitemap() {
     lastModified: new Date().toISOString(),
   }));
 
-  return [...routes, ...seniorproject];
+  return [...routes, ...seniorproject, ...accfinalproject];
 }
