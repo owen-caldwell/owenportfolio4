@@ -182,7 +182,7 @@ ul {
 }
 
 .prose p {
-  @apply my-4 text-neutral-800 dark:text-neutral-200 leading-6 font-[family-name:var(--font-baskerville)];
+  @apply my-4 text-neutral-800 dark:text-neutral-200 leading-6.5 font-[family-name:var(--font-baskerville)];
 }
 
 .prose h1 {
@@ -206,14 +206,11 @@ ul {
 }
 
 .prose ul {
-  @apply list-disc pl-6 leading-6;
-}
-.prose ul a {
-  @apply font-[family-name:var(--font-geist-sans)];
+  @apply list-disc pl-6 leading-6.5 font-[family-name:var(--font-geist-sans)];
 }
 
 .prose ol {
-  @apply list-decimal pl-6;
+  @apply list-decimal pl-6 font-[family-name:var(--font-baskerville)];;
 }
 
 .prose > :first-child {
