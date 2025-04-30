@@ -5,8 +5,7 @@ import ReactMarkdown from "react-markdown";
 export default function Featured() {
   const links = [
     {
-      description:
-        "*Learning to Paint* is a generative art installation.",
+      description: "*Learning to Paint* is a generative art installation.",
       image: "/featured/seniorproject.png",
       alt: "A complex scramble of white dots on a black screen.",
       url: "/p/seniorproject",
@@ -19,18 +18,16 @@ export default function Featured() {
       url: "https://www.jennaferayo.com",
     },
     {
-      description:
-        "[www.finn-crawford.com](https://finn-crawford.com)",
+      description: "[www.finn-crawford.com](https://finn-crawford.com)",
       image: "/featured/finncrawford.png",
       alt: "a portfolio website with a gallery of images.",
       url: "https://finn-crawford.com",
     },
     {
-      description:
-        "[www.huntkats.com](https://www.huntkats.com)",
+      description: "[www.huntkats.com](https://www.huntkats.com)",
       image: "/featured/huntermathews.png",
       alt: "a portfolio website with a gallery of images.",
-      url: "https://www.huntkas.com",
+      url: "https://www.huntkats.com",
     },
   ];
 
