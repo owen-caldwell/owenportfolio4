@@ -49,7 +49,7 @@ export default function RootLayout({
         "text-[#363636] bg-white dark:text-[#ededed] dark:bg-[#141414]",
         geistSans.variable,
         geistMono.variable,
-        baskerville.variable
+        baskerville.variable,
       )}
     >
       <body className="antialiased mx-4 md:mx-10">

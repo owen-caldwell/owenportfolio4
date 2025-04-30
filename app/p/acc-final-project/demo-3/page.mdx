@@ -1,0 +1,68 @@
+export const title = "Demo 3";
+export const date = "April 22nd, 2025";
+export const slug = "acc-final-project/demo-2";
+
+export const metadata = {
+  title: title,
+  alternates: {
+    canonical: `/p/${slug}`,
+  },
+};
+
+<div className="pt-12 pb-6">
+  <h1>{title}</h1>
+  <div className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">{date}</div>
+</div>
+
+
+## Processing Improvements
+
+- Calculate difference based on brightness instead of RGB values.
+- Use grids instead of looking at each pixel
+- Adapt dimensions to window size, flip image to create a mirror effect.
+
+## createDifferenceImage
+
+```javascript
+function createDifferenceImage(currFrame, prevFrame) {
+  let diff = createImage(currFrame.width, currFrame.height);
+
+  currFrame.loadPixels();
+  prevFrame.loadPixels();
+  diff.loadPixels();
+
+  for (let i = 0; i < currFrame.pixels.length; i += 4) {
+    const b1 = getBrightness(i, currFrame);
+    const b2 = getBrightness(i, prevFrame);
+
+    // Set white with alpha based on difference
+    diff.pixels[i] = diff.pixels[i + 1] = diff.pixels[i + 2] = 255;
+    diff.pixels[i + 3] = abs(b1 - b2);
+  }
+
+  diff.updatePixels();
+  return diff;
+}
+```
+
+## getBrightness
+
+```javascript
+function getBrightness(index, image) {
+  return (
+    image.pixels[index] * 0.212 +
+    image.pixels[index + 1] * 0.715 +
+    image.pixels[index + 2] * 0.072
+  );
+}
+```
+
+I found and adapted a better image differencing technique by [dgrantham01](https://editor.p5js.org/dgrantham01/sketches/K5rX9oPHl). They made a much more effecient program by selecting areas larger than pixels to calculate the difference between frames, and they focus on weighted brightness values rather than RGB values. Their program on p5.js demonstrates this process, and also adds sound! We save a ton of computational power by using this process.
+
+
+
+## Next Steps
+
+1. See about plugging in a CRT Monitor (need a converter!)
+2. Adjust velocity smoothing, grid size, and motion threshold based on exhibition space.
+
