@@ -7,7 +7,7 @@ export default function BlogLayout({
 }) {
   return (
     <ViewTransition>
-      <div className="max-w-[600px] prose pb-20 mx-auto">{children}</div>
+      <div className="prose pb-20 ">{children}</div>
     </ViewTransition>
   );
 }
