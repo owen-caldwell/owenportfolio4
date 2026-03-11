@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Libre_Baskerville } from "next/font/google";
 import { Name } from "./name";
-import { unstable_ViewTransition as ViewTransition } from "react";
+import { HomeViewProvider } from "./components/home-view-context";
+import { MenuHoverProvider } from "./components/menu-hover-context";
 // import Footer from "./components/footer"
 
 export const metadata: Metadata = {
@@ -39,8 +40,10 @@ const cx = (...classes: string[]) => classes.filter(Boolean).join(" ");
 
 export default function RootLayout({
   children,
+  panel,
 }: {
   children: React.ReactNode;
+  panel: React.ReactNode;
 }) {
   return (
     <html
@@ -52,11 +55,16 @@ export default function RootLayout({
         baskerville.variable,
       )}
     >
-      <body className="antialiased mx-4 md:mx-10">
-        <main className="flex flex-col min-w-0 h-screen font-[family-name:var(--font-geist-sans)]">
-          <Name />
-          <ViewTransition>{children}</ViewTransition>
-        </main>
+      <body className="antialiased m-4 max-w-[1200px] md:mx-auto md:px-4">
+        <HomeViewProvider>
+          <MenuHoverProvider>
+            <main className="flex flex-col min-w-0 font-[family-name:var(--font-geist-sans)]">
+              <Name />
+              {children}
+              {panel}
+            </main>
+          </MenuHoverProvider>
+        </HomeViewProvider>
       </body>
     </html>
   );
