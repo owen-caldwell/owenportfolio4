@@ -5,6 +5,7 @@ import { Libre_Baskerville } from "next/font/google";
 import { Name } from "./name";
 import { HomeViewProvider } from "./components/home-view-context";
 import { MenuHoverProvider } from "./components/menu-hover-context";
+import { Analytics } from "@vercel/analytics/next"
 // import Footer from "./components/footer"
 
 export const metadata: Metadata = {
@@ -61,6 +62,7 @@ export default function RootLayout({
             <main className="flex flex-col min-w-0 font-[family-name:var(--font-geist-sans)]">
               <Name />
               {children}
+              <Analytics />
               {panel}
             </main>
           </MenuHoverProvider>
