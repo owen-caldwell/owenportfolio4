@@ -14,7 +14,11 @@ import type { ContentEntry } from "./content/entry-types";
 import { useHomeView } from "./components/home-view-context";
 import { useMenuHover } from "./components/menu-hover-context";
 import MenuOrb from "./components/menu-orb";
-import { colorForHref, INTERNAL_LINK_FALLBACK_ORB_COLOR } from "./page-tags";
+import {
+  colorForHref,
+  DEFAULT_ORB_COLOR,
+  INTERNAL_LINK_FALLBACK_ORB_COLOR,
+} from "./page-tags";
 
 type HomeColumnProps = {
   className?: string;
@@ -29,6 +33,7 @@ type HoverableLinkProps = {
   isActive?: boolean;
   isDimmed?: boolean;
   shouldRenderOrb?: boolean;
+  isDesktopViewport?: boolean;
   onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 };
 
@@ -52,6 +57,7 @@ function HoverableLink({
   isActive = false,
   isDimmed = false,
   shouldRenderOrb = false,
+  isDesktopViewport = false,
   onClick,
 }: HoverableLinkProps) {
   const { hoveredMenuLinkId, setHoveredMenuLinkId } = useMenuHover();
@@ -72,14 +78,20 @@ function HoverableLink({
       href={href}
       target={target}
       rel={rel}
-      className={`underline-offset-2 inline-flex items-center gap-2 ${
+      className={`inline-flex items-center gap-2 underline-offset-2 ${
         isActive
-          ? "cursor-default"
+          ? "md:cursor-default"
           : isDimmed
-            ? "text-neutral-400 dark:text-neutral-500"
-            : "hover:underline"
+            ? "md:text-neutral-400 md:dark:text-neutral-500"
+            : "md:hover:underline"
       }`}
-      style={isActive ? { color: activeColor } : undefined}
+      style={
+        isDesktopViewport
+          ? isActive
+            ? { color: activeColor }
+            : undefined
+          : { color: DEFAULT_ORB_COLOR }
+      }
       onMouseEnter={startHover}
       onMouseLeave={isActive ? undefined : endHover}
       onFocus={startHover}
@@ -188,13 +200,14 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
                 >
                   <Link
                     href={item.href}
-                    className={`hover:underline underline-offset-2 ${
+                    className={`underline-offset-2 md:hover:underline ${
                       hasActiveArchiveLink &&
                       !isActiveProject(item.href) &&
                       hoveredArchiveHref !== item.href
-                        ? "text-neutral-400 dark:text-neutral-500"
+                        ? "md:text-neutral-400 md:dark:text-neutral-500"
                         : ""
                     }`}
+                    style={!isDesktopViewport ? { color: DEFAULT_ORB_COLOR } : undefined}
                     onMouseEnter={() => setHoveredArchiveHref(item.href)}
                     onMouseLeave={() => setHoveredArchiveHref(null)}
                     onFocus={() => setHoveredArchiveHref(item.href)}
@@ -230,7 +243,8 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
               for films, coded{" "}
               <Link
                 href={"p/seniorproject"}
-                className="hover:underline underline-offset-2"
+                className="underline-offset-2 md:hover:underline"
+                style={!isDesktopViewport ? { color: DEFAULT_ORB_COLOR } : undefined}
               >
                 L-system paintings
               </Link>{" "}
@@ -257,6 +271,7 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
                       isActive={isActive}
                       isDimmed={isDimmed}
                       shouldRenderOrb={isDesktopViewport}
+                      isDesktopViewport={isDesktopViewport}
                       onClick={
                         isExternal
                           ? undefined
@@ -284,7 +299,10 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
                   aria-expanded={false}
                   aria-controls="archive-project-links"
                 >
-                  <span className="hover:underline underline-offset-2 cursor-pointer">
+                  <span
+                    className="cursor-pointer underline-offset-2 md:hover:underline"
+                    style={!isDesktopViewport ? { color: DEFAULT_ORB_COLOR } : undefined}
+                  >
                     Archive
                   </span>
                   {isDesktopViewport &&
@@ -309,6 +327,7 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
                       target={isExternal ? "_blank" : undefined}
                       rel={isExternal ? "noreferrer" : undefined}
                       shouldRenderOrb={isDesktopViewport}
+                      isDesktopViewport={isDesktopViewport}
                     >
                       {entry.menuLabel ?? entry.title}
                     </HoverableLink>
