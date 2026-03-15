@@ -3,43 +3,77 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getMobileFeaturedMenuEntries } from "./content/entries";
 import { useHomeView } from "./components/home-view-context";
 import { useMenuHover } from "./components/menu-hover-context";
 import MenuOrb from "./components/menu-orb";
-import { colorForHref, DEFAULT_ORB_COLOR } from "./page-tags";
+import { colorForHref, colorForMenuHoverId, DEFAULT_ORB_COLOR } from "./page-tags";
+
+function fadedColor(hex: string, alpha = 0.62): string {
+  const value = hex.replace("#", "");
+  if (value.length !== 6) return hex;
+
+  const r = Number.parseInt(value.slice(0, 2), 16);
+  const g = Number.parseInt(value.slice(2, 4), 16);
+  const b = Number.parseInt(value.slice(4, 6), 16);
+
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
 
 export function Name() {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
   const { mobileView, setMobileView } = useHomeView();
-  const { hoveredMenuLinkId } = useMenuHover();
+  const { hoveredMenuLinkId, setHoveredMenuLinkId } = useMenuHover();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDesktopViewport, setIsDesktopViewport] = useState(false);
   const pathSegments = pathname.split("/").filter(Boolean); // Split the path into segments and remove empty strings
   const currentProjectSlug =
     pathSegments[0] === "p" && pathSegments[1] ? pathSegments[1] : null;
   const currentOrbColor = currentProjectSlug
     ? colorForHref(`/p/${currentProjectSlug}`)
     : DEFAULT_ORB_COLOR;
-  const recommendedRoutes = [
-    { href: "/p/fda-redesign", label: "FDA Nutrition Facts" },
-    { href: "/p/lacima", label: "La Cima Elementary" },
-    { href: "/p/seniorproject", label: "Senior Project" },
-    { href: "/p/acc-final-project", label: "ACC Final Project" },
-  ];
+  const hoveredOrbColor = colorForMenuHoverId(hoveredMenuLinkId);
+  const orbColor = hoveredOrbColor ?? currentOrbColor;
+  const isFeaturedHoverTarget = hoveredMenuLinkId?.startsWith("featured-link-");
+  const showHeaderOrb =
+    !isDesktopViewport || hoveredMenuLinkId === null || isFeaturedHoverTarget;
+  const recommendedRoutes = getMobileFeaturedMenuEntries();
+  const isActiveProjectRoute = (href: string) =>
+    pathname === href || pathname.startsWith(`${href}/`);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const media = window.matchMedia("(min-width: 768px)");
+    const updateViewport = () => setIsDesktopViewport(media.matches);
+    updateViewport();
+    media.addEventListener("change", updateViewport);
+    return () => media.removeEventListener("change", updateViewport);
+  }, []);
+
   return (
-    <header className="sticky top-2 z-40 -mx-1 mb-2 rounded-full border border-black/5 bg-white/60 px-3 py-2 text-[#242424] backdrop-blur-xl dark:border-white/15 dark:bg-[#141414]/60 dark:text-neutral-200 md:static md:mx-0 md:mb-0 md:rounded-none md:border-0 md:bg-transparent md:px-0 md:py-0 md:backdrop-blur-none font-[family-name:var(--font-geist-sans)]">
+    <motion.header
+      layoutRoot
+      className="sticky top-2 z-40 -mx-1 mb-2 rounded-full border border-black/5 bg-white/60 px-3 py-2 text-[#242424] backdrop-blur-xl dark:border-white/15 dark:bg-[#141414]/60 dark:text-neutral-200 md:static md:mx-0 md:mb-0 md:rounded-none md:border-0 md:bg-transparent md:px-0 md:py-0 md:backdrop-blur-none font-[family-name:var(--font-geist-sans)]"
+    >
       <div className="flex items-start gap-2">
         <div className="flex gap-2">
-          <span className="mt-1 inline-flex h-2.5 w-2.5 shrink-0">
-            {hoveredMenuLinkId === null && <MenuOrb color={currentOrbColor} />}
+          <span className="relative z-20 mt-[4.5px] inline-flex h-2.5 w-2.5 shrink-0">
+            {showHeaderOrb && <MenuOrb color={orbColor} />}
           </span>
           <nav className="flex text-sm">
-            <Link href="/" className="hover:underline underline-offset-2">
+            <Link
+              href="/"
+              className="hover:underline underline-offset-2"
+              onClick={() => {
+                setHoveredMenuLinkId(null);
+                setMobileView("index");
+              }}
+            >
               Owen Caldwell
             </Link>
             {pathSegments.map((segment, index) => {
@@ -99,9 +133,15 @@ export function Name() {
           <button
             type="button"
             className="ml-auto md:hidden text-sm tracking-wide"
-            onClick={() =>
-              setMobileView(mobileView === "featured" ? "index" : "featured")
-            }
+            onClick={() => {
+              const nextView = mobileView === "featured" ? "index" : "featured";
+              if (nextView === "index") {
+                setHoveredMenuLinkId(null);
+              } else {
+                setHoveredMenuLinkId("featured-link-0");
+              }
+              setMobileView(nextView);
+            }}
             aria-label={
               mobileView === "featured" ? "Switch to index" : "Switch to gallery"
             }
@@ -122,27 +162,29 @@ export function Name() {
             transition={{ duration: 0.18, ease: "easeOut" }}
           >
             <ul className="space-y-1">
-              {recommendedRoutes.map((route, index) => (
-                <li key={route.href}>
+              {recommendedRoutes.map((route) => (
+                <li key={route.id}>
+                  {(() => {
+                    const isActive = isActiveProjectRoute(route.href);
+                    const activeColor = fadedColor(colorForHref(route.href));
+                    const label = route.menuLabel ?? route.title;
+
+                    return (
                   <Link
                     href={route.href}
-                    className="inline-flex items-center gap-2 hover:underline underline-offset-2"
+                    className="inline-flex leading-[1.6] items-center gap-2 hover:underline underline-offset-2"
+                    style={isActive ? { color: activeColor } : undefined}
                   >
-                    <span>{route.label}</span>
-                    <motion.span
-                      aria-hidden
-                      className="inline-flex h-2.5 w-2.5 shrink-0 rounded-full"
-                      initial={{ backgroundColor: DEFAULT_ORB_COLOR }}
-                      animate={{ backgroundColor: colorForHref(route.href) }}
-                      transition={{ duration: 0.3, delay: index * 0.04, ease: "easeOut" }}
-                    />
+                    <span>{label}</span>
                   </Link>
+                    );
+                  })()}
                 </li>
               ))}
             </ul>
           </motion.div>
         ) : null}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 }

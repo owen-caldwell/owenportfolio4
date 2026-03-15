@@ -1,7 +1,7 @@
 import React, { ComponentPropsWithoutRef } from "react";
 import Link from "next/link";
 import { highlight } from "sugar-high";
-import Image from "next/image";
+import SmartImage from "./app/components/smart-image";
 
 type HeadingProps = ComponentPropsWithoutRef<"h1">;
 type ParagraphProps = ComponentPropsWithoutRef<"p">;
@@ -30,6 +30,32 @@ const components = {
   p: (props: ParagraphProps) => (
     <p className="text-gray-800 dark:text-zinc-300" {...props} />
   ),
+  img: ({
+    src,
+    alt,
+    width,
+    height,
+    className,
+  }: ComponentPropsWithoutRef<"img">) => {
+    if (!src) return null;
+
+    const parsedWidth =
+      typeof width === "number" ? width : Number(width) || 1200;
+    const parsedHeight =
+      typeof height === "number" ? height : Number(height) || 800;
+
+    return (
+      <SmartImage
+        src={src}
+        alt={alt ?? ""}
+        width={parsedWidth}
+        height={parsedHeight}
+        sizes="(max-width: 768px) 100vw, 800px"
+        zoom
+        className={className ?? "h-auto w-full"}
+      />
+    );
+  },
   ol: (props: ListProps) => (
     <ol
       className="text-gray-800 dark:text-zinc-300 list-decimal pl-5 space-y-2"

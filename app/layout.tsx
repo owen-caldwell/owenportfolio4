@@ -5,6 +5,7 @@ import { Libre_Baskerville } from "next/font/google";
 import { Name } from "./name";
 import { HomeViewProvider } from "./components/home-view-context";
 import { MenuHoverProvider } from "./components/menu-hover-context";
+import ImageZoomInit from "./components/image-zoom-init";
 import { Analytics } from "@vercel/analytics/next"
 // import Footer from "./components/footer"
 
@@ -57,6 +58,7 @@ export default function RootLayout({
       )}
     >
       <body className="antialiased m-4 max-w-[1200px] md:mx-auto md:px-4">
+        <ImageZoomInit />
         <HomeViewProvider>
           <MenuHoverProvider>
             <main className="flex flex-col min-w-0 font-[family-name:var(--font-geist-sans)]">
