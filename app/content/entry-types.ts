@@ -1,4 +1,8 @@
-export type EntryTag = "caseStudy" | "education" | "experimentation" | "archive";
+export type EntryTag =
+  | "caseStudy"
+  | "education"
+  | "experimentation"
+  | "archive";
 
 export type EntryLayout = "article" | "gallery" | "custom";
 
@@ -15,6 +19,13 @@ export type EntryFeaturedPlacement = {
   images: string[];
   imageAlt: string;
   actionText: string;
+};
+
+export type ArchiveListItem = {
+  id: string;
+  href: string;
+  label: string;
+  descriptor: string;
 };
 
 export type EntryBase = {

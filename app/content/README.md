@@ -20,6 +20,7 @@ Both entry types can participate in:
 - `entry-types.ts` - shared entry/type definitions
 - `internal-entries.ts` - MDX-backed entries
 - `external-entries.ts` - outlink entries
+- `archive-items.ts` - archive list items and descriptors
 - `entries.ts` - selector/query layer used by UI components
 - `mdx-manifest.ts` - MDX metadata manifest loader (`export const title/slug/tag/date`)
 - `entry-validation.ts` - validation rules for registry consistency
@@ -46,6 +47,12 @@ Both entry types can participate in:
 1. Add an `ExternalEntry` in `external-entries.ts`.
 2. Add relevant placements (`homeWorkOrder`, `socialOrder`, `featured.order`).
 3. Provide a unique `hoverId`.
+
+## Add an archive link item
+
+1. Add an `ArchiveListItem` in `archive-items.ts`.
+2. The item order in `archive-items.ts` is the rendered list order.
+3. Add `descriptor` text shown after the project label.
 
 ## Validation
 

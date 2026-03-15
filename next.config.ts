@@ -8,9 +8,6 @@ export const sql = postgres(process.env.POSTGRES_URL!, {
 
 const nextConfig: NextConfig = {
   pageExtensions: ['mdx', 'ts', 'tsx'],
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   async redirects() {
     if (!process.env.POSTGRES_URL) {
       return [];

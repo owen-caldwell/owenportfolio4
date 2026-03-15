@@ -1,6 +1,12 @@
+import { ARCHIVE_ITEMS } from "./archive-items";
 import { EXTERNAL_ENTRIES } from "./external-entries";
 import { INTERNAL_ENTRIES } from "./internal-entries";
-import type { ContentEntry, EntryLayout, EntryTag } from "./entry-types";
+import type {
+  ArchiveListItem,
+  ContentEntry,
+  EntryLayout,
+  EntryTag,
+} from "./entry-types";
 
 const ALL_ENTRIES: ContentEntry[] = [...INTERNAL_ENTRIES, ...EXTERNAL_ENTRIES];
 
@@ -49,6 +55,10 @@ export function getSocialEntries(): ContentEntry[] {
     (entry) => entry.menu?.socialOrder !== undefined,
   );
   return sortByOrder(socialEntries, (entry) => entry.menu?.socialOrder);
+}
+
+export function getArchiveEntries(): ArchiveListItem[] {
+  return [...ARCHIVE_ITEMS];
 }
 
 export function getMobileFeaturedMenuEntries(): ContentEntry[] {

@@ -15,11 +15,13 @@ export default function SmartImage({
   zoom = true,
   blurDataURL,
   className,
+  alt,
   ...props
 }: SmartImageProps) {
   return (
     <Image
       {...props}
+      alt={alt}
       data-action={zoom ? "zoom" : undefined}
       placeholder="blur"
       blurDataURL={blurDataURL ?? DEFAULT_BLUR_DATA_URL}

@@ -42,18 +42,28 @@ export function validateStaticEntries(): string[] {
 
   for (const entry of entries) {
     if (!entry.href) errors.push(`Entry "${entry.id}" has empty href`);
-    if (entry.kind === "external" && !isExternalUrl(entry.href) && !entry.href.startsWith("/")) {
-      errors.push(`External entry "${entry.id}" has invalid href "${entry.href}"`);
+    if (
+      entry.kind === "external" &&
+      !isExternalUrl(entry.href) &&
+      !entry.href.startsWith("/")
+    ) {
+      errors.push(
+        `External entry "${entry.id}" has invalid href "${entry.href}"`,
+      );
     }
     if (entry.kind === "internal" && !entry.href.startsWith("/p/")) {
       errors.push(`Internal entry "${entry.id}" should use /p/ href`);
     }
     if (entry.kind === "internal" && !VALID_LAYOUTS.includes(entry.layout)) {
-      errors.push(`Internal entry "${entry.id}" has invalid layout "${entry.layout}"`);
+      errors.push(
+        `Internal entry "${entry.id}" has invalid layout "${entry.layout}"`,
+      );
     }
     if (entry.featured) {
       if (!entry.featured.images.length) {
-        errors.push(`Featured entry "${entry.id}" must include at least one image`);
+        errors.push(
+          `Featured entry "${entry.id}" must include at least one image`,
+        );
       }
       if (!entry.featured.summary.trim()) {
         errors.push(`Featured entry "${entry.id}" must include a summary`);
@@ -66,13 +76,17 @@ export function validateStaticEntries(): string[] {
     .map((entry) => String(entry.featured?.order));
   const duplicateFeaturedOrders = duplicates(featuredOrders);
   if (duplicateFeaturedOrders.length) {
-    errors.push(`Duplicate featured orders: ${duplicateFeaturedOrders.join(", ")}`);
+    errors.push(
+      `Duplicate featured orders: ${duplicateFeaturedOrders.join(", ")}`,
+    );
   }
 
   return errors;
 }
 
-export function validateAgainstMdxManifest(manifest: MdxManifestEntry[]): string[] {
+export function validateAgainstMdxManifest(
+  manifest: MdxManifestEntry[],
+): string[] {
   const errors: string[] = [];
   const internalEntries = getInternalEntries();
   const manifestBySlug = new Map(manifest.map((entry) => [entry.slug, entry]));
@@ -80,7 +94,9 @@ export function validateAgainstMdxManifest(manifest: MdxManifestEntry[]): string
   for (const entry of internalEntries) {
     const mdx = manifestBySlug.get(entry.slug);
     if (!mdx) {
-      errors.push(`Internal entry "${entry.slug}" is missing from MDX manifest`);
+      errors.push(
+        `Internal entry "${entry.slug}" is missing from MDX manifest`,
+      );
       continue;
     }
     if (entry.tag && mdx.tag && entry.tag !== mdx.tag) {

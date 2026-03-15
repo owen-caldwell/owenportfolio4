@@ -14,7 +14,7 @@ export default function ProjectOverlayLayout({
 }: ProjectOverlayLayoutProps) {
   const pathname = usePathname();
   const pathSegments = pathname.split("/").filter(Boolean);
-  const slug = pathSegments[0] === "p" ? pathSegments[1] ?? null : null;
+  const slug = pathSegments[0] === "p" ? (pathSegments[1] ?? null) : null;
   const layout = getLayoutBySlug(slug);
   const contentClassByLayout = {
     article: "prose pb-20",
@@ -23,7 +23,9 @@ export default function ProjectOverlayLayout({
   } as const;
   const desktopContentClass = contentClassByLayout[layout];
   const mobileContentClass =
-    layout === "article" ? "prose pb-16" : "pb-16 [&_img]:my-2 [&_iframe]:w-full";
+    layout === "article"
+      ? "prose pb-16"
+      : "pb-16 [&_img]:my-2 [&_iframe]:w-full";
 
   return (
     <>

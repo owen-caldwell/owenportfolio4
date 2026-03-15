@@ -7,7 +7,11 @@ import { getMobileFeaturedMenuEntries } from "./content/entries";
 import { useHomeView } from "./components/home-view-context";
 import { useMenuHover } from "./components/menu-hover-context";
 import MenuOrb from "./components/menu-orb";
-import { colorForHref, colorForMenuHoverId, DEFAULT_ORB_COLOR } from "./page-tags";
+import {
+  colorForHref,
+  colorForMenuHoverId,
+  DEFAULT_ORB_COLOR,
+} from "./page-tags";
 
 function fadedColor(hex: string, alpha = 0.62): string {
   const value = hex.replace("#", "");
@@ -143,7 +147,9 @@ export function Name() {
               setMobileView(nextView);
             }}
             aria-label={
-              mobileView === "featured" ? "Switch to index" : "Switch to gallery"
+              mobileView === "featured"
+                ? "Switch to index"
+                : "Switch to gallery"
             }
           >
             {mobileView === "featured" ? "INDEX" : "GALLERY"}
@@ -170,13 +176,13 @@ export function Name() {
                     const label = route.menuLabel ?? route.title;
 
                     return (
-                  <Link
-                    href={route.href}
-                    className="inline-flex leading-[1.6] items-center gap-2 hover:underline underline-offset-2"
-                    style={isActive ? { color: activeColor } : undefined}
-                  >
-                    <span>{label}</span>
-                  </Link>
+                      <Link
+                        href={route.href}
+                        className="inline-flex leading-[1.6] items-center gap-2 hover:underline underline-offset-2"
+                        style={isActive ? { color: activeColor } : undefined}
+                      >
+                        <span>{label}</span>
+                      </Link>
                     );
                   })()}
                 </li>

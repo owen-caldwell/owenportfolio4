@@ -61,7 +61,7 @@ export const INTERNAL_ENTRIES: InternalEntry[] = [
     title: "Learning to Paint",
     menuLabel: "IDM@NYU Senior Project",
     tag: "experimentation",
-    layout: "gallery",
+    layout: "article",
     mdxPath: "app/p/seniorproject/page.mdx",
     menu: {
       homeWorkOrder: 3,

@@ -41,7 +41,9 @@ export default function Featured() {
     {},
   );
   const [activeProjectId, setActiveProjectId] = useState("featured-link-0");
-  const [isDesktopViewport, setIsDesktopViewport] = useState<boolean | null>(null);
+  const [isDesktopViewport, setIsDesktopViewport] = useState<boolean | null>(
+    null,
+  );
   const [isDesktopListHovered, setIsDesktopListHovered] = useState(false);
 
   const activateProject = (index: number, projectId: string) => {
@@ -173,15 +175,21 @@ export default function Featured() {
         const currentIndex = galleryIndexes[link.id] ?? 0;
         const currentImage = featured.images[currentIndex];
         const projectId = `featured-link-${index}`;
-        const hoveredFeaturedLinkId = hoveredMenuLinkId?.startsWith("featured-link-")
+        const hoveredFeaturedLinkId = hoveredMenuLinkId?.startsWith(
+          "featured-link-",
+        )
           ? hoveredMenuLinkId
           : getFeaturedLinkIdByHoverId(hoveredMenuLinkId);
-        const hoveredWorkHoverId = getHoverIdByFeaturedLinkId(hoveredFeaturedLinkId);
+        const hoveredWorkHoverId = getHoverIdByFeaturedLinkId(
+          hoveredFeaturedLinkId,
+        );
         const hasLinkedHover = hoveredWorkHoverId !== null;
         const visualActiveId = hoveredFeaturedLinkId ?? activeProjectId;
-        const isInactive = isDesktopViewport === true
-          ? (!isDesktopListHovered && !hasLinkedHover) || visualActiveId !== projectId
-          : activeProjectId !== projectId;
+        const isInactive =
+          isDesktopViewport === true
+            ? (!isDesktopListHovered && !hasLinkedHover) ||
+              visualActiveId !== projectId
+            : activeProjectId !== projectId;
 
         return (
           <div
