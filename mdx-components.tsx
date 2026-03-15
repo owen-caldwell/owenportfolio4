@@ -38,6 +38,7 @@ const components = {
     className,
   }: ComponentPropsWithoutRef<"img">) => {
     if (!src) return null;
+    if (typeof src !== "string") return null;
 
     const parsedWidth =
       typeof width === "number" ? width : Number(width) || 1200;
