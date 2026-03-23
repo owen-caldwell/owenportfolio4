@@ -1,3 +1,4 @@
+import Link from "next/link";
 export const title = "La Cima Charter School";
 export const date = "July 20th, 2025";
 export const slug = "lacima";
@@ -10,35 +11,56 @@ export const metadata = {
   },
 };
 
-<div className="pt-12 pb-6">
-  <h1>{title}</h1>
-  <div className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
-    {date}
-  </div>
-</div>
-![1 page of my redesigned trifold brochure for 2026-2027 outreach.](/lacima/lacima-brochure-1.webp)
-<small>1 page of my redesigned trifold brochure for 2026-2027 outreach.</small>
+import MdxImageCarousel from "@/app/components/mdx-image-carousel";
+
 ## Summary
+
 Working directly with La Cima's Executive Director and school leadership, I led a full overhaul of the school's website, social media presence, and brand identity. I interviewed staff and teachers to surface the school's most pressing needs — keeping legally required documents up to date, simplifying content management for non-technical staff, and strengthening admissions outreach — and designed solutions across print and digital platforms to address them. In the latter half of my engagement, I shifted toward a media and marketing strategy, creating targeted ad campaigns delivered through Meta.
+
+<br />
+
+![1 page of a redesigned trifold brochure for 2026-2027 outreach.](/lacima/lacima-brochure.webp)
+
+<small>1 page of a redesigned trifold brochure for 2026-2027 outreach.</small>
 
 ![The redesigned landing page of La Cima Charter School.](/lacima/lacima-1.webp)
 
+<small>
+  <Link target="_blank" href="https://www.lacimacharterschool.org" className="underline-offset-1"> www.lacimacharterschool.org </Link> - redesigned landing page.
+</small>
+
 ## La Cima Charter School — Website Redesign
+
 La Cima Charter School's website hadn't kept pace with the school. Staffing changes meant new administrators didn't know how to update it, admissions content had gone stale, and documents required by New York State law were overdue for revision. On top of those operational problems, the site needed a visual overhaul. I was brought in to fix all of it.
+
 ## Preliminary Research
+
 I surveyed dozens of school websites and identified two companies that dominate the market: Interactive Schools, which serves private schools across Europe and the U.S., and Educational Networks, a common choice for public school districts. Both offer a full suite of services — CMS, content creation, hosting, analytics, and maintenance. Understanding what the best-resourced solutions were doing gave me a useful benchmark.
-![An optical correction of La Cima's mountain logo](/lacima/brandgaps-1.png)
+![An optical correction of La Cima's mountain logo](/lacima/brandgaps-1.webp)
+
 ## Stakeholders
+
 What those successful firms have clearly figured out — and what I needed to figure out quickly — is that a school website serves three distinct audiences, each with different needs.
 Prospective families carry the weight of a major decision. They want to get a feel for the school — the staff, the students, the environment, the curriculum. The website has to earn their trust and move them toward visiting, applying, and ultimately enrolling.
 Governing bodies have specific, non-negotiable requirements. Board minutes, complaint forms, and other documentation must be present, organized, and current. For a New York State public school, falling short isn't just a design problem — it's a legal one.
 Current families use the site as a practical reference. They're looking for staff contact information, arrival and dismissal times, forms, and timely updates about closures or school events.
 Designing for all three meant the site couldn't optimize for just one. Every structural and content decision had to serve the full range.
+
 ## Choosing a Platform
+
 My must-haves going in were clear: the site needed to be easy for non-technical staff to maintain, support Spanish translation, meet accessibility standards, have reliable SEO and analytics, and run on secure infrastructure — the old site had been attracting bot traffic that hurt performance.
 Building from scratch on a JavaScript framework would have met some of those requirements but not all of them, and not within the timeline. Squarespace covered the full list and gave the school something they could actually own and manage after I was gone. I recommended it, the Executive Director approved it without hesitation, and it was the right call.
+
+<MdxImageCarousel
+  images={[
+    { src: "/lacima/ad-1.webp", alt: "Ad placement for La Cima / 1" },
+    { src: "/lacima/ad-2.webp", alt: "Ad placement for La Cima / 2" },
+    { src: "/lacima/ad-3.webp", alt: "Ad placement for La Cima / 3" },
+  ]}
+/>
+
 ## Outcome
+
 We launched the new site in December 2025. Staff can now update content without a developer. The site meets all New York State compliance requirements, is fully accessible, supports Spanish translation, and has analytics in place to track admissions performance.
 One addition I'm particularly proud of: a scannable "General Information" page that gives parents the answers they need at a glance, before they have to dig into the full scholar handbook. It's a small thing, but it addresses a real friction point — and it's something I noticed was consistently missing from school websites that otherwise got a lot right.
 Choosing Squarespace over a custom build was the right call for this client. It gave us a faster path to a stable, maintainable product, and that's what the school actually needed.
-

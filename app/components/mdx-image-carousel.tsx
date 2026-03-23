@@ -38,8 +38,8 @@ export default function MdxImageCarousel({
           width={1600}
           height={1200}
           sizes="(max-width: 768px) 100vw, 800px"
-          className="h-auto w-full"
           priority={index === 0}
+          className="h-auto w-full max-h-[850px] object-contain"
         />
         <button
           type="button"

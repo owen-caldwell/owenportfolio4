@@ -18,7 +18,20 @@ export const metadata: Metadata = {
     default: "Owen Caldwell",
     template: "%s | Owen Caldwell",
   },
-  description: "Web designer and student living in New York.",
+  description: "Design Engineer living in New York.",
+  openGraph: {
+    type: "website",
+    siteName: "Owen Caldwell",
+    images: [
+      {
+        url: "/senior-project/seniorproject-2.webp",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/senior-project/seniorproject-2.webp"],
+  },
 };
 
 const baskerville = Libre_Baskerville({

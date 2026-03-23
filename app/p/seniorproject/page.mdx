@@ -12,12 +12,8 @@ export const metadata = {
 
 import MdxImageCarousel from "@/app/components/mdx-image-carousel";
 
-<div className="pt-12 pb-6">
-  <h1>{title}</h1>
-  <div className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
-    {date}
-  </div>
-</div>
+**Learning to Paint** began as a question: what would it look like to build a new process for a traditional medium using computational tools?
+
 <MdxImageCarousel
   images={[
     { src: "/senior-project/sp-painting-1.webp", alt: "Painting 1" },
@@ -30,8 +26,6 @@ import MdxImageCarousel from "@/app/components/mdx-image-carousel";
     { src: "/senior-project/sp-painting-8.webp", alt: "Painting 8" },
   ]}
 />
-**Learning to Paint** began as a question: what would it look like to build a new process for a traditional medium using computational tools?
-
 The series draws on L-systems — a mathematical formalism developed by biologist Aristid Lindenmayer to model organic growth — repurposed here as a tool for abstract composition. **A program written in p5.js assigns randomized rules that function as painting instructions**. Applied recursively, those rules generate unexpected sequences, which are then rendered as constellations of dots on a painted field.
 
 The results are hard to predict. Structures emerge that suggest leaves, skeletal forms, flowers — organic shapes that have no explicit origin in the code. That gap between computational process and visual outcome is what the work is really about.

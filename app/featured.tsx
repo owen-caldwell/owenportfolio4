@@ -201,7 +201,7 @@ export default function Featured() {
   }, [hasMounted, setHoveredMenuLinkId]);
 
   const shellClassName =
-    "relative z-50 flex flex-col gap-20 scroll-smooth overflow-y-auto h-dvh snap-y snap-mandatory overscroll-y-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:-my-20 md:py-10";
+    "relative z-50 flex flex-col gap-20 scroll-smooth overflow-y-auto h-dvh overscroll-y-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:-my-20 md:py-10 md:snap-y md:snap-mandatory";
 
   if (!hasMounted) {
     return (
@@ -259,7 +259,7 @@ export default function Featured() {
               itemRefs.current[index] = node;
             }}
             data-project-id={projectId}
-            className="flex flex-col snap-center"
+            className="flex flex-col md:snap-center"
             onClickCapture={(event) => {
               if (!isInactive) return;
               event.preventDefault();

@@ -1,5 +1,48 @@
 [
   {
+    "kind": "external",
+    "id": "project-finn",
+    "href": "https://finn-crawford.com",
+    "hoverId": "hover-finn",
+    "title": "Finn Crawford",
+    "menu": {
+      "homeWork": true
+    },
+    "featured": {
+      "summary": "Design & Development for Finn Crawford's professional portfolio",
+      "media": [
+        {
+          "src": "/finn-crawford/finn-1.mov",
+          "poster": "/finn-crawford/finn-1.poster.webp"
+        }
+      ],
+      "imageAlt": "a portfolio website with a gallery of images.",
+      "actionText": "Visit website"
+    }
+  },
+  {
+    "kind": "external",
+    "id": "project-hunter",
+    "href": "https://www.huntkats.com",
+    "hoverId": "hover-hunter",
+    "title": "Hunter Mathews",
+    "featured": {
+      "title": "Hunter Mathews",
+      "summary": "Design & Development for Hunter Matthews's fine art photography portfolio",
+      "media": [
+        {
+          "src": "/hunter-mathews/hunter-1.mov",
+          "poster": "/hunter-mathews/hunter-1.poster.webp"
+        }
+      ],
+      "imageAlt": "a portfolio website with a gallery of images.",
+      "actionText": "Visit website"
+    },
+    "menu": {
+      "homeWork": true
+    }
+  },
+  {
     "kind": "internal",
     "id": "project-seniorproject",
     "slug": "seniorproject",
@@ -51,7 +94,7 @@
     "mdxPath": "app/p/lacima/page.mdx",
     "menu": {
       "mobileFeatured": true,
-      "client": true
+      "homeWork": true
     },
     "featured": {
       "title": "LA CIMA ELEMENTARY",
@@ -66,105 +109,6 @@
       ],
       "imageAlt": "The La Cima Elementary school website home and about page.",
       "actionText": "View Project"
-    }
-  },
-  {
-    "kind": "external",
-    "id": "project-finn",
-    "href": "https://finn-crawford.com",
-    "hoverId": "hover-finn",
-    "title": "Finn Crawford",
-    "menu": {
-      "mobileFeatured": true,
-      "client": true
-    },
-    "featured": {
-      "summary": "Design & Development for Finn Crawford's professional portfolio",
-      "media": [
-        {
-          "src": "/finn-crawford/finn-1.mov",
-          "poster": "/finn-crawford/finn-1.poster.webp"
-        }
-      ],
-      "imageAlt": "a portfolio website with a gallery of images.",
-      "actionText": "Visit website"
-    }
-  },
-  {
-    "kind": "external",
-    "id": "project-hunter",
-    "href": "https://www.huntkats.com",
-    "hoverId": "hover-hunter",
-    "title": "Hunter Mathews",
-    "featured": {
-      "title": "Hunter Mathews",
-      "summary": "Design & Development for Hunter Matthews's fine art photography portfolio",
-      "media": [
-        {
-          "src": "/hunter-mathews/hunter-1.mov",
-          "poster": "/hunter-mathews/hunter-1.poster.webp"
-        }
-      ],
-      "imageAlt": "a portfolio website with a gallery of images.",
-      "actionText": "Visit website"
-    },
-    "menu": {
-      "mobileFeatured": true,
-      "client": true
-    }
-  },
-  {
-    "kind": "internal",
-    "id": "project-forth",
-    "slug": "forth",
-    "href": "",
-    "hoverId": "hover-forth",
-    "title": "FORTH",
-    "layout": "article",
-    "mdxPath": "",
-    "menu": {
-      "mobileFeatured": true
-    },
-    "featured": {
-      "title": "FORTH",
-      "summary": "A 3D narrative project created and rendered in Maya. Created as part of Snow Fu's New Media & 3D Imaging class, exhibited at NYU Department of Photography & Imaging.",
-      "media": [
-        {
-          "src": "/forth/forth-2.webp"
-        },
-        {
-          "src": "/forth/forth-1.webp"
-        },
-        {
-          "src": "/forth/forth-3.webp"
-        }
-      ],
-      "imageAlt": "A 3D render of celestial forms in the darkness of space.",
-      "actionText": ""
-    },
-    "tag": "experimentation"
-  },
-  {
-    "kind": "external",
-    "id": "project-jenna",
-    "href": "https://www.jennaferayo.com",
-    "hoverId": "hover-jenna",
-    "title": "Jenna Ferayo",
-    "featured": {
-      "title": "Jenna Ferayo",
-      "summary": "Design & Development, Portfolio",
-      "media": [
-        {
-          "src": "/jenna-ferayo/jenna-1.mov",
-          "poster": "/jenna-ferayo/jenna-1.poster.webp"
-        }
-      ],
-      "imageAlt": "A portfolio site screenshot.",
-      "actionText": "Visit website"
-    },
-    "menu": {
-      "mobileFeatured": true,
-      "client": true
     }
   },
   {
@@ -198,6 +142,60 @@
       "imageAlt": "Mockups of an FDA spec app and redesigned label.",
       "actionText": "View Project"
     }
+  },
+  {
+    "kind": "external",
+    "id": "project-jenna",
+    "href": "https://www.jennaferayo.com",
+    "hoverId": "hover-jenna",
+    "title": "Jenna Ferayo",
+    "featured": {
+      "title": "Jenna Ferayo",
+      "summary": "Design & Development, Portfolio",
+      "media": [
+        {
+          "src": "/jenna-ferayo/jenna-1.mov",
+          "poster": "/jenna-ferayo/jenna-1.poster.webp"
+        }
+      ],
+      "imageAlt": "A portfolio site screenshot.",
+      "actionText": "Visit website"
+    },
+    "menu": {
+      "homeWork": true
+    }
+  },
+  {
+    "kind": "internal",
+    "id": "project-forth",
+    "slug": "FORTH",
+    "href": "/p/FORTH",
+    "hoverId": "hover-forth",
+    "title": "FORTH",
+    "layout": "article",
+    "mdxPath": "app/p/FORTH/page.mdx",
+    "menu": {
+      "mobileFeatured": true,
+      "homeWork": true
+    },
+    "featured": {
+      "title": "FORTH",
+      "summary": "A 3D narrative project created and rendered in Maya. Created as part of Snow Fu's New Media & 3D Imaging class, exhibited at NYU Department of Photography & Imaging.",
+      "media": [
+        {
+          "src": "/forth/forth-2.webp"
+        },
+        {
+          "src": "/forth/forth-1.webp"
+        },
+        {
+          "src": "/forth/forth-3.webp"
+        }
+      ],
+      "imageAlt": "A 3D render of celestial forms in the darkness of space.",
+      "actionText": "View Project"
+    },
+    "tag": "experimentation"
   },
   {
     "kind": "external",

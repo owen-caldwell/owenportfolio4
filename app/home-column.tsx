@@ -25,14 +25,13 @@ type HomeColumnProps = {
   className?: string;
 };
 
-function ExternalLinkArrowIcon({ className = "h-3 w-3" }: { className?: string }) {
+function ExternalLinkArrowIcon({
+  className = "h-3 w-3",
+}: {
+  className?: string;
+}) {
   return (
-    <svg
-      aria-hidden
-      viewBox="0 0 12 12"
-      className={className}
-      fill="none"
-    >
+    <svg aria-hidden viewBox="0 0 12 12" className={className} fill="none">
       <path
         d="M2.5 9.5L9.5 2.5M4 2.5H9.5V8"
         stroke="currentColor"
@@ -263,10 +262,10 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="flex flex-col"
           >
-            <div className="leading-[1.7] font-[family-name:var(--font-baskerville)] md:text-base">
-              I&apos;m <b>Owen Caldwell</b>, an NYC-based{" "}
-              <i>Design Engineer</i> and New York University graduate.
-              Right now I&apos;m creating fictional UIs for an{" "}
+            <div className="leading-[1.7] tracking-tight font-[family-name:var(--font-baskerville)] md:text-base">
+              I&apos;m <b>Owen Caldwell</b>, an NYC-based <i>Design Engineer</i>{" "}
+              and New York University graduate. Right now I&apos;m creating fictional
+              UIs for an{" "}
               <Link
                 href="https://deadline.com/2026/02/keir-gilchrist-elsie-fisher-to-star-nightflirt-horror-movie-1236727303/"
                 style={{ color: DEFAULT_ORB_COLOR }}
@@ -275,68 +274,21 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
               </Link>
               .
               <br />
-              <br />My{" "}
+              <br />
+              My{" "}
               <Link
-                href={"p/seniorproject"}
+                href={"/p/seniorproject"}
                 style={{ color: DEFAULT_ORB_COLOR }}
               >
-                thesis{" "}
+                Thesis{" "}
               </Link>{" "}
               at NYU was a generative art installation that used Lindenmayer
               systems to draw paintings.
               <br />
-              <br />
-              I also run a <b>web design and development</b> practice.
-              {clientEntries.length > 0 ? (
-                <>
-                  {" "}
-                  Recent clients include:
-                  <ul>
-                    {clientEntries.map((entry) => {
-                      const href = entry.href?.trim();
-                      if (!href) {
-                        return (
-                          <li key={entry.id}>
-                            {entry.menuLabel ?? entry.title}
-                          </li>
-                        );
-                      }
-                      const isExternal = /^https?:\/\//.test(href);
-                      return (
-                        <li key={entry.id}>
-                          <HoverableLink
-                            id={entry.hoverId}
-                            href={href}
-                            target={isExternal ? "_blank" : undefined}
-                            rel={isExternal ? "noreferrer" : undefined}
-                            variant={
-                              entry.kind === "external" ? "arrow" : "orb"
-                            }
-                            isActive={false}
-                            isDimmed={
-                              isHomeColumnHoverActive &&
-                              hoveredEntryIdForColumn !== entry.hoverId
-                            }
-                            shouldRenderOrb={isDesktopViewport}
-                            isDesktopViewport={isDesktopViewport}
-                            onClick={
-                              isExternal
-                                ? undefined
-                                : () => handleOptimisticInternalNavigation(href)
-                            }
-                          >
-                            {entry.menuLabel ?? entry.title}
-                          </HoverableLink>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </>
-              ) : null}
-            </div>
-            
-            <ul className="pt-12 pb-4">
-              Projects:
+              <br />I also run a <b>web design and development</b> practice that I'm very proud of.
+              </div>
+
+            <ul className="mt-4 pt-4 pb-4 border-t border-neutral-200 dark:border-neutral-800">
               {homeWorkEntries.map((entry) => {
                 const href = entry.href?.trim();
                 const isActive = isActiveEntry(entry);
@@ -369,9 +321,7 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
                       href={href}
                       target={isExternal ? "_blank" : undefined}
                       rel={isExternal ? "noreferrer" : undefined}
-                      variant={
-                        entry.kind === "external" ? "arrow" : "orb"
-                      }
+                      variant={entry.kind === "external" ? "arrow" : "orb"}
                       isActive={isActive}
                       isDimmed={isDimmed}
                       shouldRenderOrb={isDesktopViewport}
@@ -434,48 +384,6 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
                 );
               })}
             </ul>
-            <div className="pt-8">
-              <button
-                type="button"
-                className="inline-flex items-center gap-2"
-                onClick={() => {
-                  setHoveredMenuLinkId(null);
-                  setHomeColumnPanel("archive");
-                }}
-                onMouseEnter={() => setHoveredMenuLinkId("work-archive")}
-                onMouseLeave={() => setHoveredMenuLinkId(null)}
-                onFocus={() => setHoveredMenuLinkId("work-archive")}
-                onBlur={() => setHoveredMenuLinkId(null)}
-                onPointerDown={() => setHoveredMenuLinkId(null)}
-                aria-expanded={false}
-                aria-controls="archive-project-links"
-              >
-                <span
-                  style={
-                    isDesktopViewport &&
-                    isHomeColumnHoverActive &&
-                    hoveredEntryIdForColumn !== "work-archive"
-                      ? undefined
-                      : { color: DEFAULT_ORB_COLOR }
-                  }
-                  className={`cursor-pointer ${
-                    isDesktopViewport &&
-                    isHomeColumnHoverActive &&
-                    hoveredEntryIdForColumn !== "work-archive"
-                      ? "md:text-neutral-400 md:dark:text-neutral-500"
-                      : ""
-                  }`}
-                >
-                  Archive
-                </span>
-                {isDesktopViewport && hoveredMenuLinkId === "work-archive" && (
-                  <MenuOrb
-                    color={INTERNAL_LINK_FALLBACK_ORB_COLOR}
-                    className="mt-px"
-                  />
-                )}
-              </button>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
