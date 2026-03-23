@@ -261,7 +261,7 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="flex flex-col"
           >
-            <div className="leading-[1.7] tracking-tight font-[family-name:var(--font-baskerville)] md:text-base">
+            <div className="leading-[1.7] tracking-relaxed font-[family-name:var(--font-baskerville)] md:text-base">
               I&apos;m <b>Owen Caldwell</b>, an NYC-based <i>Design Engineer</i>{" "}
               and New York University graduate. Right now I&apos;m creating fictional
               UIs for an{" "}
@@ -279,7 +279,7 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
                 href={"/p/seniorproject"}
                 style={{ color: DEFAULT_ORB_COLOR }}
               >
-                Thesis{" "}
+                thesis{" "}
               </Link>{" "}
               at NYU was a generative art installation that used Lindenmayer
               systems to draw paintings.
