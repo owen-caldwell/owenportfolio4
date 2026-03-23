@@ -1,1 +1,5 @@
-pnpm test
+if pnpm run | rg -q "^\s+test\b"; then
+  pnpm test
+else
+  echo "No test script configured; skipping pre-commit tests."
+fi

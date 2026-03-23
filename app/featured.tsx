@@ -9,6 +9,7 @@ import {
 } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import NextImage from "next/image";
 import ReactMarkdown from "react-markdown";
 import {
   getFeaturedEntries,
@@ -311,11 +312,14 @@ export default function Featured() {
                           aria-label={featured.imageAlt}
                         />
                       ) : (
-                        <img
+                        <NextImage
                           alt={featured.imageAlt}
                           src={mediaItem.src}
+                          width={1600}
+                          height={900}
                           className="block h-auto w-full"
-                          loading={mediaIndex === 0 ? "eager" : "lazy"}
+                          sizes="100vw"
+                          priority={mediaIndex === 0}
                         />
                       )}
                     </motion.div>

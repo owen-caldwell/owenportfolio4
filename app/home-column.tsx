@@ -266,7 +266,7 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
             <div className="leading-[1.7] font-[family-name:var(--font-baskerville)] md:text-base">
               I&apos;m <b>Owen Caldwell</b>, an NYC-based{" "}
               <i>Design Engineer</i> and New York University graduate.
-              Right now I'm creating fictional UIs for an{" "}
+              Right now I&apos;m creating fictional UIs for an{" "}
               <Link
                 href="https://deadline.com/2026/02/keir-gilchrist-elsie-fisher-to-star-nightflirt-horror-movie-1236727303/"
                 style={{ color: DEFAULT_ORB_COLOR }}
