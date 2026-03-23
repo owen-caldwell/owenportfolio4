@@ -18,7 +18,6 @@ import MenuOrb from "./components/menu-orb";
 import {
   colorForHref,
   DEFAULT_ORB_COLOR,
-  INTERNAL_LINK_FALLBACK_ORB_COLOR,
 } from "./page-tags";
 
 type HomeColumnProps = {
@@ -285,7 +284,7 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
               at NYU was a generative art installation that used Lindenmayer
               systems to draw paintings.
               <br />
-              <br />I also run a <b>web design and development</b> practice that I'm very proud of.
+              <br />I also run a <b>web design and development</b> practice that I&apos;m very proud of.
               </div>
 
             <ul className="mt-4 pt-4 pb-4 border-t border-neutral-200 dark:border-neutral-800">
