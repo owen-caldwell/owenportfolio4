@@ -1,10 +1,15 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
-import SmartImage from "./components/smart-image";
 import {
   getFeaturedEntries,
   getFeaturedLinkIdByHoverId,
@@ -30,13 +35,22 @@ function HoverableLink({ href, children, className = "" }: HoverableLinkProps) {
   );
 }
 
+function isVideoMedia(src: string): boolean {
+  return /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(src);
+}
+
+function isUsableFeaturedHref(trimmedHref: string): boolean {
+  if (!trimmedHref) return false;
+  return /^https?:\/\//.test(trimmedHref) || trimmedHref.startsWith("/");
+}
+
 export default function Featured() {
   const { hoveredMenuLinkId, setHoveredMenuLinkId } = useMenuHover();
   const { mobileView } = useHomeView();
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
   const activeProjectIdRef = useRef("featured-link-0");
-  const links = getFeaturedEntries();
+  const links = useMemo(() => getFeaturedEntries(), []);
   const [galleryIndexes, setGalleryIndexes] = useState<Record<string, number>>(
     {},
   );
@@ -45,12 +59,17 @@ export default function Featured() {
     null,
   );
   const [isDesktopListHovered, setIsDesktopListHovered] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
   const activateProject = (index: number, projectId: string) => {
     setActiveProjectId(projectId);
     const node = itemRefs.current[index];
     node?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -106,6 +125,31 @@ export default function Featured() {
   }, [hoveredMenuLinkId]);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    // Preload featured media so first gallery swap does not flash.
+    for (const link of links) {
+      const mediaItems = link.featured?.media ?? [];
+      for (const mediaItem of mediaItems) {
+        if (isVideoMedia(mediaItem.src)) {
+          const video = document.createElement("video");
+          video.preload = "metadata";
+          video.src = mediaItem.src;
+          video.load();
+          if (mediaItem.poster) {
+            const poster = new Image();
+            poster.src = mediaItem.poster;
+          }
+          continue;
+        }
+        const image = new Image();
+        image.src = mediaItem.src;
+      }
+    }
+  }, [links]);
+
+  useEffect(() => {
+    if (!hasMounted) return;
     const root = scrollContainerRef.current;
     if (!root) return;
 
@@ -153,12 +197,25 @@ export default function Featured() {
       root.removeEventListener("scroll", queueUpdate);
       window.removeEventListener("resize", queueUpdate);
     };
-  }, [setHoveredMenuLinkId]);
+  }, [hasMounted, setHoveredMenuLinkId]);
+
+  const shellClassName =
+    "relative z-50 flex flex-col gap-20 scroll-smooth overflow-y-auto h-dvh snap-y snap-mandatory overscroll-y-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:-my-20 md:py-10";
+
+  if (!hasMounted) {
+    return (
+      <div
+        ref={scrollContainerRef}
+        className={shellClassName}
+        aria-hidden
+      />
+    );
+  }
 
   return (
     <div
       ref={scrollContainerRef}
-      className="relative z-50 flex flex-col gap-2 scroll-smooth overflow-y-auto h-dvh snap-y snap-mandatory overscroll-y-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:-my-20 md:py-10"
+      className={shellClassName}
       onMouseEnter={() => {
         if (isDesktopViewport !== true) return;
         setIsDesktopListHovered(true);
@@ -172,8 +229,11 @@ export default function Featured() {
       {links.map((link, index) => {
         if (!link.featured) return null;
         const featured = link.featured;
+        const actionHref = (link.href ?? "").trim();
+        const actionText = featured.actionText?.trim();
+        const showActionButton =
+          Boolean(actionText) && isUsableFeaturedHref(actionHref);
         const currentIndex = galleryIndexes[link.id] ?? 0;
-        const currentImage = featured.images[currentIndex];
         const projectId = `featured-link-${index}`;
         const hoveredFeaturedLinkId = hoveredMenuLinkId?.startsWith(
           "featured-link-",
@@ -215,55 +275,60 @@ export default function Featured() {
                 }
                 setGalleryIndexes((prev) => ({
                   ...prev,
-                  [link.id]: (currentIndex + 1) % featured.images.length,
+                  [link.id]: (currentIndex + 1) % featured.media.length,
                 }));
               }}
               className="w-full cursor-pointer text-left"
               aria-label={`Advance ${featured.title ?? link.title} gallery`}
             >
-              <div className="relative aspect-square w-full overflow-hidden bg-neutral-200 dark:bg-neutral-800">
-                {featured.images.length > 1 ? (
-                  <AnimatePresence initial={false} mode="wait">
+              <div className="relative w-full overflow-hidden bg-neutral-200 dark:bg-neutral-800">
+                {featured.media.map((mediaItem, mediaIndex) => {
+                  const mediaIsVideo = isVideoMedia(mediaItem.src);
+                  const isCurrentMedia = mediaIndex === currentIndex;
+                  return (
                     <motion.div
-                      key={currentImage}
-                      className="absolute inset-0"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
+                      key={`${mediaItem.src}-${mediaIndex}`}
+                      className={
+                        isCurrentMedia
+                          ? "relative w-full"
+                          : "absolute inset-0 w-full pointer-events-none"
+                      }
+                      aria-hidden={!isCurrentMedia}
+                      initial={false}
+                      animate={{ opacity: isCurrentMedia ? 1 : 0 }}
                       transition={{ duration: 0.22, ease: "easeOut" }}
                     >
-                      <SmartImage
-                        width={1000}
-                        height={1000}
-                        alt={featured.imageAlt}
-                        src={currentImage}
-                        zoom={false}
-                        className={`h-full w-full object-contain transition-[filter] duration-300 ease-out ${
-                          isInactive ? "grayscale" : ""
-                        }`}
-                      />
+                      {mediaIsVideo ? (
+                        <video
+                          src={mediaItem.src}
+                          poster={mediaItem.poster}
+                          className="block h-auto w-full"
+                          muted
+                          loop
+                          autoPlay
+                          playsInline
+                          preload="metadata"
+                          aria-label={featured.imageAlt}
+                        />
+                      ) : (
+                        <img
+                          alt={featured.imageAlt}
+                          src={mediaItem.src}
+                          className="block h-auto w-full"
+                          loading={mediaIndex === 0 ? "eager" : "lazy"}
+                        />
+                      )}
                     </motion.div>
-                  </AnimatePresence>
-                ) : (
-                  <SmartImage
-                    width={1000}
-                    height={1000}
-                    alt={featured.imageAlt}
-                    src={currentImage}
-                    zoom={false}
-                    className={`h-full w-full object-contain transition-[filter] duration-300 ease-out ${
-                      isInactive ? "grayscale" : ""
-                    }`}
-                  />
-                )}
+                  );
+                })}
               </div>
             </button>
             <div className="flex flex-col pt-2">
               <div className="flex items-center justify-between gap-2">
                 <h3 className="text-base">{featured.title ?? link.title}</h3>
-                {featured.images.length > 1 && (
+                {featured.media.length > 1 && (
                   <span className="text-sm tabular-nums">
-                    {currentIndex + 1}/{featured.images.length}
+                    {currentIndex + 1}/{featured.media.length}
                   </span>
                 )}
               </div>
@@ -271,12 +336,29 @@ export default function Featured() {
                 <div className={isInactive ? "text-neutral-500" : ""}>
                   <ReactMarkdown>{featured.summary}</ReactMarkdown>
                 </div>
-                <HoverableLink
-                  href={link.href}
-                  className={isInactive ? "text-neutral-500" : "text-blue-500"}
-                >
-                  {featured.actionText}
-                </HoverableLink>
+                {showActionButton ? (
+                  /^https?:\/\//.test(actionHref) ? (
+                    <a
+                      href={actionHref}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`relative z-20 underline-offset-2 inline-flex items-center gap-2 hover:underline ${
+                        isInactive ? "text-neutral-500" : "text-blue-500"
+                      }`.trim()}
+                    >
+                      <span>{actionText}</span>
+                    </a>
+                  ) : (
+                    <HoverableLink
+                      href={actionHref}
+                      className={
+                        isInactive ? "text-neutral-500" : "text-blue-500"
+                      }
+                    >
+                      {actionText}
+                    </HoverableLink>
+                  )
+                ) : null}
               </div>
             </div>
           </div>

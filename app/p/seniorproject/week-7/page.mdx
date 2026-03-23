@@ -21,12 +21,12 @@ Two features were added with this latest version of my program that will help me
 
 1) A red bounding box is drawn around each iteration
 
-![White dots on a black screen with a red bounding box](/seniorproject/bounding-box.png)
+![White dots on a black screen with a red bounding box](/senior-project/bounding-box.webp)
 
 I now have the ability to see (and calculate) the bounds of each iteration, which means *hopefully* I can pre-calculate and then scale-to-fit each drawing. Big drawings will come into view, and small drawings will be a little more interesting.
 
 2. An informative text file for each painting
 
-![A text file containing a seemingly random string of F, G, +, and - characters.](/seniorproject/lsystem-info.png)
+![A text file containing a seemingly random string of F, G, +, and - characters.](/senior-project/lsystem-info.webp)
 
 I can now extract a few important pieces of information: the string which serves as instructions for the painting (Most paintings have instructions that are thousands of characters long), the amount of points drawn, and the time the painting was drawn. I can see this information being used in two ways: 1) to add additional complexity to the paintings. Maybe the color of the background depends on the time of day the painting was rendered, for example. 2) procure better results. If I can calculate the size of paintings before they are rendered, then uninteresting paintings that are too large or two small can be taken out.

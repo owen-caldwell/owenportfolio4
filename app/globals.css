@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../lib/zoomjs/zoom.css";
 
 /* LEE ROBS STUFF */
 
@@ -207,35 +208,4 @@ ul {
 h1,
 h2 {
   margin-bottom: 1rem;
-}
-
-img[data-action="zoom"] {
-  cursor: zoom-in;
-}
-
-.zoom-img {
-  z-index: 2147483647;
-  transition: transform 300ms;
-}
-
-img.zoom-img {
-  cursor: zoom-out;
-}
-
-.zoom-overlay {
-  z-index: 2147483645;
-  background: #fff;
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 300ms;
-}
-
-.zoom-overlay-open .zoom-overlay {
-  opacity: 1;
-}
-
-.zoom-overlay-open {
-  cursor: default;
 }

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   getArchiveEntries,
+  getClientEntries,
   getHomeWorkEntries,
   getHoverIdByFeaturedLinkId,
   getSocialEntries,
@@ -24,6 +25,25 @@ type HomeColumnProps = {
   className?: string;
 };
 
+function ExternalLinkArrowIcon({ className = "h-3 w-3" }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden
+      viewBox="0 0 12 12"
+      className={className}
+      fill="none"
+    >
+      <path
+        d="M2.5 9.5L9.5 2.5M4 2.5H9.5V8"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 type HoverableLinkProps = {
   id: string;
   href: string;
@@ -32,21 +52,13 @@ type HoverableLinkProps = {
   rel?: string;
   isActive?: boolean;
   isDimmed?: boolean;
+  /** CMS `external` entries keep the arrow and also get the hover orb on desktop; `internal` entries use the orb only. */
+  variant?: "orb" | "arrow";
   shouldRenderOrb?: boolean;
   isDesktopViewport?: boolean;
+  className?: string;
   onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 };
-
-function fadedColor(hex: string, alpha = 0.62): string {
-  const value = hex.replace("#", "");
-  if (value.length !== 6) return hex;
-
-  const r = Number.parseInt(value.slice(0, 2), 16);
-  const g = Number.parseInt(value.slice(2, 4), 16);
-  const b = Number.parseInt(value.slice(4, 6), 16);
-
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-}
 
 function HoverableLink({
   id,
@@ -56,8 +68,10 @@ function HoverableLink({
   rel,
   isActive = false,
   isDimmed = false,
+  variant = "orb",
   shouldRenderOrb = false,
   isDesktopViewport = false,
+  className = "",
   onClick,
 }: HoverableLinkProps) {
   const { hoveredMenuLinkId, setHoveredMenuLinkId } = useMenuHover();
@@ -65,7 +79,6 @@ function HoverableLink({
   const isHovered =
     !isActive && (hoveredMenuLinkId === id || mappedHoverId === id);
   const orbColor = colorForHref(href);
-  const activeColor = fadedColor(orbColor);
 
   const startHover = () => {
     if (isActive) return;
@@ -78,19 +91,15 @@ function HoverableLink({
       href={href}
       target={target}
       rel={rel}
-      className={`inline-flex items-center gap-2 underline-offset-2 ${
+      className={`inline-flex items-center gap-2 ${className} ${
         isActive
           ? "md:cursor-default"
           : isDimmed
             ? "md:text-neutral-400 md:dark:text-neutral-500"
-            : "md:hover:underline"
+            : ""
       }`}
       style={
-        isDesktopViewport
-          ? isActive
-            ? { color: activeColor }
-            : undefined
-          : { color: DEFAULT_ORB_COLOR }
+        isDesktopViewport && isDimmed ? undefined : { color: DEFAULT_ORB_COLOR }
       }
       onMouseEnter={startHover}
       onMouseLeave={isActive ? undefined : endHover}
@@ -99,7 +108,10 @@ function HoverableLink({
       onPointerDown={isActive ? undefined : endHover}
       onClick={onClick}
     >
-      <span>{children}</span>
+      <span className="inline-flex items-center gap-1.5">
+        <span>{children}</span>
+        {variant === "arrow" && <ExternalLinkArrowIcon />}
+      </span>
       {shouldRenderOrb && isHovered && (
         <MenuOrb color={orbColor} className="mt-px" />
       )}
@@ -119,14 +131,20 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
     null,
   );
   const homeWorkEntries = getHomeWorkEntries();
+  const clientEntries = getClientEntries();
   const socialEntries = getSocialEntries();
   const archiveEntries = getArchiveEntries();
-  const hoveredWorkLinkId = (() => {
-    if (!hoveredMenuLinkId) return null;
-    if (hoveredMenuLinkId.startsWith("work-")) return hoveredMenuLinkId;
-    const mappedHoverId = getHoverIdByFeaturedLinkId(hoveredMenuLinkId);
-    return mappedHoverId?.startsWith("work-") ? mappedHoverId : null;
-  })();
+  const hoveredEntryIdForColumn = hoveredMenuLinkId?.startsWith(
+    "featured-link-",
+  )
+    ? getHoverIdByFeaturedLinkId(hoveredMenuLinkId)
+    : hoveredMenuLinkId;
+  const isHomeColumnHoverActive =
+    Boolean(hoveredEntryIdForColumn) &&
+    (hoveredEntryIdForColumn === "work-archive" ||
+      clientEntries.some((e) => e.hoverId === hoveredEntryIdForColumn) ||
+      homeWorkEntries.some((e) => e.hoverId === hoveredEntryIdForColumn) ||
+      socialEntries.some((e) => e.hoverId === hoveredEntryIdForColumn));
   const isPathActive = (
     baseHref: string,
     candidate: string | null | undefined,
@@ -140,8 +158,12 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
   const hasActiveArchiveLink = archiveEntries.some((item) =>
     isActiveProject(item.href),
   );
-  const isActiveEntry = (entry: ContentEntry) =>
-    entry.kind === "internal" && isActiveProject(entry.href);
+  const isActiveEntry = (entry: ContentEntry) => {
+    if (entry.kind !== "internal") return false;
+    const href = entry.href?.trim();
+    if (!href) return false;
+    return isActiveProject(href);
+  };
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -164,7 +186,7 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
 
   return (
     <div
-      className={`flex flex-col pt-12 md:pt-20 md:w-[450px] mx-auto md:mx-0 ${className}`.trim()}
+      className={`flex flex-col pt-12 md:w-[450px] mx-auto md:mx-0 ${className}`.trim()}
     >
       <AnimatePresence mode="wait" initial={false}>
         {homeColumnPanel === "archive" ? (
@@ -200,14 +222,21 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
                 >
                   <Link
                     href={item.href}
-                    className={`underline-offset-2 md:hover:underline ${
+                    className={`${
                       hasActiveArchiveLink &&
                       !isActiveProject(item.href) &&
                       hoveredArchiveHref !== item.href
                         ? "md:text-neutral-400 md:dark:text-neutral-500"
                         : ""
                     }`}
-                    style={!isDesktopViewport ? { color: DEFAULT_ORB_COLOR } : undefined}
+                    style={
+                      isDesktopViewport &&
+                      hasActiveArchiveLink &&
+                      !isActiveProject(item.href) &&
+                      hoveredArchiveHref !== item.href
+                        ? undefined
+                        : { color: DEFAULT_ORB_COLOR }
+                    }
                     onMouseEnter={() => setHoveredArchiveHref(item.href)}
                     onMouseLeave={() => setHoveredArchiveHref(null)}
                     onFocus={() => setHoveredArchiveHref(item.href)}
@@ -234,40 +263,115 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="flex flex-col"
           >
-            <div className="leading-[1.5] font-[family-name:var(--font-baskerville)] md:text-lg">
-              I&apos;m <b>Owen Caldwell</b>, a New York City-based{" "}
-              <i>Designer</i>, <i>Product Engineer</i>, and recent New York
-              University graduate.
+            <div className="leading-[1.7] font-[family-name:var(--font-baskerville)] md:text-base">
+              I&apos;m <b>Owen Caldwell</b>, an NYC-based{" "}
+              <i>Design Engineer</i> and New York University graduate.
+              Right now I'm creating fictional UIs for an{" "}
+              <Link
+                href="https://deadline.com/2026/02/keir-gilchrist-elsie-fisher-to-star-nightflirt-horror-movie-1236727303/"
+                style={{ color: DEFAULT_ORB_COLOR }}
+              >
+                indie horror film
+              </Link>
+              .
               <br />
-              <br />I have designed and built custom websites also made graphics
-              for films, coded{" "}
+              <br />My{" "}
               <Link
                 href={"p/seniorproject"}
-                className="underline-offset-2 md:hover:underline"
-                style={!isDesktopViewport ? { color: DEFAULT_ORB_COLOR } : undefined}
+                style={{ color: DEFAULT_ORB_COLOR }}
               >
-                L-system paintings
+                thesis{" "}
               </Link>{" "}
-              for an art installation, and built my own speaker.
+              at NYU was a generative art installation that used Lindenmayer
+              systems to draw paintings.
+              <br />
+              <br />
+              I also run a <b>web design and development</b> practice.
+              {clientEntries.length > 0 ? (
+                <>
+                  {" "}
+                  Recent clients include:
+                  <ul>
+                    {clientEntries.map((entry) => {
+                      const href = entry.href?.trim();
+                      if (!href) {
+                        return (
+                          <li key={entry.id}>
+                            {entry.menuLabel ?? entry.title}
+                          </li>
+                        );
+                      }
+                      const isExternal = /^https?:\/\//.test(href);
+                      return (
+                        <li key={entry.id}>
+                          <HoverableLink
+                            id={entry.hoverId}
+                            href={href}
+                            target={isExternal ? "_blank" : undefined}
+                            rel={isExternal ? "noreferrer" : undefined}
+                            variant={
+                              entry.kind === "external" ? "arrow" : "orb"
+                            }
+                            isActive={false}
+                            isDimmed={
+                              isHomeColumnHoverActive &&
+                              hoveredEntryIdForColumn !== entry.hoverId
+                            }
+                            shouldRenderOrb={isDesktopViewport}
+                            isDesktopViewport={isDesktopViewport}
+                            onClick={
+                              isExternal
+                                ? undefined
+                                : () => handleOptimisticInternalNavigation(href)
+                            }
+                          >
+                            {entry.menuLabel ?? entry.title}
+                          </HoverableLink>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </>
+              ) : null}
             </div>
-
-            <div className="pt-12 pb-4">Work</div>
-            <ul>
+            
+            <ul className="pt-12 pb-4">
+              Projects:
               {homeWorkEntries.map((entry) => {
+                const href = entry.href?.trim();
                 const isActive = isActiveEntry(entry);
                 const isDimmed =
-                  hoveredWorkLinkId !== null &&
-                  hoveredWorkLinkId !== entry.hoverId &&
+                  isHomeColumnHoverActive &&
+                  hoveredEntryIdForColumn !== null &&
+                  hoveredEntryIdForColumn !== entry.hoverId &&
                   !isActive;
-                const isExternal = /^https?:\/\//.test(entry.href);
+                if (!href) {
+                  return (
+                    <li key={entry.id}>
+                      <span
+                        className={
+                          isDimmed
+                            ? "md:text-neutral-400 md:dark:text-neutral-500"
+                            : ""
+                        }
+                      >
+                        {entry.menuLabel ?? entry.title}
+                      </span>
+                    </li>
+                  );
+                }
+                const isExternal = /^https?:\/\//.test(href);
 
                 return (
                   <li key={entry.id}>
                     <HoverableLink
                       id={entry.hoverId}
-                      href={entry.href}
+                      href={href}
                       target={isExternal ? "_blank" : undefined}
                       rel={isExternal ? "noreferrer" : undefined}
+                      variant={
+                        entry.kind === "external" ? "arrow" : "orb"
+                      }
                       isActive={isActive}
                       isDimmed={isDimmed}
                       shouldRenderOrb={isDesktopViewport}
@@ -275,7 +379,7 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
                       onClick={
                         isExternal
                           ? undefined
-                          : () => handleOptimisticInternalNavigation(entry.href)
+                          : () => handleOptimisticInternalNavigation(href)
                       }
                     >
                       {entry.menuLabel ?? entry.title}
@@ -283,58 +387,95 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
                   </li>
                 );
               })}
-              <li className="pt-1">
-                <button
-                  type="button"
-                  className="inline-flex items-center gap-2"
-                  onClick={() => {
-                    setHoveredMenuLinkId(null);
-                    setHomeColumnPanel("archive");
-                  }}
-                  onMouseEnter={() => setHoveredMenuLinkId("work-archive")}
-                  onMouseLeave={() => setHoveredMenuLinkId(null)}
-                  onFocus={() => setHoveredMenuLinkId("work-archive")}
-                  onBlur={() => setHoveredMenuLinkId(null)}
-                  onPointerDown={() => setHoveredMenuLinkId(null)}
-                  aria-expanded={false}
-                  aria-controls="archive-project-links"
-                >
-                  <span
-                    className="cursor-pointer underline-offset-2 md:hover:underline"
-                    style={!isDesktopViewport ? { color: DEFAULT_ORB_COLOR } : undefined}
-                  >
-                    Archive
-                  </span>
-                  {isDesktopViewport &&
-                    hoveredMenuLinkId === "work-archive" && (
-                      <MenuOrb
-                        color={INTERNAL_LINK_FALLBACK_ORB_COLOR}
-                        className="mt-px"
-                      />
-                    )}
-                </button>
-              </li>
             </ul>
-            <div className="pt-6 pb-4 pl-1" />
-            <ul className="space-y-1">
+            <ul className="space-y-1 pt-8">
               {socialEntries.map((entry) => {
-                const isExternal = /^https?:\/\//.test(entry.href);
+                const href = entry.href?.trim();
+                if (!href) {
+                  return (
+                    <li key={entry.id}>
+                      <span className="inline-flex flex-row items-center gap-1.5">
+                        {entry.menuLabel ?? entry.title}
+                      </span>
+                    </li>
+                  );
+                }
+                const isExternal = /^https?:\/\//.test(href);
+                const isSocialDimmed =
+                  isHomeColumnHoverActive &&
+                  hoveredEntryIdForColumn !== entry.hoverId;
                 return (
                   <li key={entry.id}>
-                    <HoverableLink
-                      id={entry.hoverId}
-                      href={entry.href}
+                    <Link
+                      href={href}
                       target={isExternal ? "_blank" : undefined}
                       rel={isExternal ? "noreferrer" : undefined}
-                      shouldRenderOrb={isDesktopViewport}
-                      isDesktopViewport={isDesktopViewport}
+                      className={`inline-flex flex-row items-center gap-1.5 ${
+                        isSocialDimmed
+                          ? "md:text-neutral-400 md:dark:text-neutral-500"
+                          : ""
+                      }`}
+                      style={
+                        isDesktopViewport && isSocialDimmed
+                          ? undefined
+                          : { color: DEFAULT_ORB_COLOR }
+                      }
+                      onMouseEnter={() => setHoveredMenuLinkId(entry.hoverId)}
+                      onMouseLeave={() => setHoveredMenuLinkId(null)}
+                      onFocus={() => setHoveredMenuLinkId(entry.hoverId)}
+                      onBlur={() => setHoveredMenuLinkId(null)}
                     >
-                      {entry.menuLabel ?? entry.title}
-                    </HoverableLink>
+                      <span className="inline-flex items-center gap-1.5">
+                        <span>{entry.menuLabel ?? entry.title}</span>
+                        <ExternalLinkArrowIcon />
+                      </span>
+                    </Link>
                   </li>
                 );
               })}
             </ul>
+            <div className="pt-8">
+              <button
+                type="button"
+                className="inline-flex items-center gap-2"
+                onClick={() => {
+                  setHoveredMenuLinkId(null);
+                  setHomeColumnPanel("archive");
+                }}
+                onMouseEnter={() => setHoveredMenuLinkId("work-archive")}
+                onMouseLeave={() => setHoveredMenuLinkId(null)}
+                onFocus={() => setHoveredMenuLinkId("work-archive")}
+                onBlur={() => setHoveredMenuLinkId(null)}
+                onPointerDown={() => setHoveredMenuLinkId(null)}
+                aria-expanded={false}
+                aria-controls="archive-project-links"
+              >
+                <span
+                  style={
+                    isDesktopViewport &&
+                    isHomeColumnHoverActive &&
+                    hoveredEntryIdForColumn !== "work-archive"
+                      ? undefined
+                      : { color: DEFAULT_ORB_COLOR }
+                  }
+                  className={`cursor-pointer ${
+                    isDesktopViewport &&
+                    isHomeColumnHoverActive &&
+                    hoveredEntryIdForColumn !== "work-archive"
+                      ? "md:text-neutral-400 md:dark:text-neutral-500"
+                      : ""
+                  }`}
+                >
+                  Archive
+                </span>
+                {isDesktopViewport && hoveredMenuLinkId === "work-archive" && (
+                  <MenuOrb
+                    color={INTERNAL_LINK_FALLBACK_ORB_COLOR}
+                    className="mt-px"
+                  />
+                )}
+              </button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

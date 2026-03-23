@@ -1,0 +1,224 @@
+[
+  {
+    "kind": "internal",
+    "id": "project-seniorproject",
+    "slug": "seniorproject",
+    "hoverId": "hover-senior",
+    "title": "Learning to Paint",
+    "menuLabel": "IDM@NYU Senior Project",
+    "tag": "experimentation",
+    "layout": "article",
+    "mdxPath": "app/p/seniorproject/page.mdx",
+    "menu": {
+      "homeWork": true,
+      "mobileFeatured": true
+    },
+    "featured": {
+      "title": "LEARNING TO PAINT",
+      "summary": "A generative art project, exhibited at Brooklyn for IDM@NYU",
+      "media": [
+        {
+          "src": "/senior-project/seniorproject-1.mp4",
+          "poster": "/senior-project/seniorproject-1.poster.webp"
+        },
+        {
+          "src": "/senior-project/seniorproject-2.webp"
+        },
+        {
+          "src": "/senior-project/seniorproject-3.webp"
+        },
+        {
+          "src": "/senior-project/seniorproject-4.webp"
+        },
+        {
+          "src": "/senior-project/seniorproject-5.webp"
+        }
+      ],
+      "imageAlt": "Various images containing complex organic-looking forms made up of black dots on a white 1:1 page.",
+      "actionText": "View Project"
+    },
+    "href": "/p/seniorproject"
+  },
+  {
+    "kind": "internal",
+    "id": "project-lacima",
+    "slug": "lacima",
+    "href": "/p/lacima",
+    "hoverId": "hover-lacima",
+    "title": "La Cima Charter School",
+    "tag": "education",
+    "layout": "article",
+    "mdxPath": "app/p/lacima/page.mdx",
+    "menu": {
+      "mobileFeatured": true,
+      "client": true
+    },
+    "featured": {
+      "title": "LA CIMA ELEMENTARY",
+      "summary": "A website design and branding overhaul for an elementary school in Brooklyn, NY.",
+      "media": [
+        {
+          "src": "/lacima/lacima-1.webp"
+        },
+        {
+          "src": "/lacima/lacima-2.webp"
+        }
+      ],
+      "imageAlt": "The La Cima Elementary school website home and about page.",
+      "actionText": "View Project"
+    }
+  },
+  {
+    "kind": "external",
+    "id": "project-finn",
+    "href": "https://finn-crawford.com",
+    "hoverId": "hover-finn",
+    "title": "Finn Crawford",
+    "menu": {
+      "mobileFeatured": true,
+      "client": true
+    },
+    "featured": {
+      "summary": "Design & Development for Finn Crawford's professional portfolio",
+      "media": [
+        {
+          "src": "/finn-crawford/finn-1.mov",
+          "poster": "/finn-crawford/finn-1.poster.webp"
+        }
+      ],
+      "imageAlt": "a portfolio website with a gallery of images.",
+      "actionText": "Visit website"
+    }
+  },
+  {
+    "kind": "external",
+    "id": "project-hunter",
+    "href": "https://www.huntkats.com",
+    "hoverId": "hover-hunter",
+    "title": "Hunter Mathews",
+    "featured": {
+      "title": "Hunter Mathews",
+      "summary": "Design & Development for Hunter Matthews's fine art photography portfolio",
+      "media": [
+        {
+          "src": "/hunter-mathews/hunter-1.mov",
+          "poster": "/hunter-mathews/hunter-1.poster.webp"
+        }
+      ],
+      "imageAlt": "a portfolio website with a gallery of images.",
+      "actionText": "Visit website"
+    },
+    "menu": {
+      "mobileFeatured": true,
+      "client": true
+    }
+  },
+  {
+    "kind": "internal",
+    "id": "project-forth",
+    "slug": "forth",
+    "href": "",
+    "hoverId": "hover-forth",
+    "title": "FORTH",
+    "layout": "article",
+    "mdxPath": "",
+    "menu": {
+      "mobileFeatured": true
+    },
+    "featured": {
+      "title": "FORTH",
+      "summary": "A 3D narrative project created and rendered in Maya. Created as part of Snow Fu's New Media & 3D Imaging class, exhibited at NYU Department of Photography & Imaging.",
+      "media": [
+        {
+          "src": "/forth/forth-2.webp"
+        },
+        {
+          "src": "/forth/forth-1.webp"
+        },
+        {
+          "src": "/forth/forth-3.webp"
+        }
+      ],
+      "imageAlt": "A 3D render of celestial forms in the darkness of space.",
+      "actionText": ""
+    },
+    "tag": "experimentation"
+  },
+  {
+    "kind": "external",
+    "id": "project-jenna",
+    "href": "https://www.jennaferayo.com",
+    "hoverId": "hover-jenna",
+    "title": "Jenna Ferayo",
+    "featured": {
+      "title": "Jenna Ferayo",
+      "summary": "Design & Development, Portfolio",
+      "media": [
+        {
+          "src": "/jenna-ferayo/jenna-1.mov",
+          "poster": "/jenna-ferayo/jenna-1.poster.webp"
+        }
+      ],
+      "imageAlt": "A portfolio site screenshot.",
+      "actionText": "Visit website"
+    },
+    "menu": {
+      "mobileFeatured": true,
+      "client": true
+    }
+  },
+  {
+    "kind": "internal",
+    "id": "project-fda-app",
+    "slug": "fda-app",
+    "href": "/p/fda-redesign",
+    "hoverId": "hover-fda",
+    "title": "Redesigning FDA’s Nutrition Facts Label",
+    "menuLabel": "Redesigning Nutrition Facts",
+    "layout": "article",
+    "mdxPath": "app/p/fda-app/page.mdx",
+    "menu": {
+      "homeWork": true,
+      "mobileFeatured": true
+    },
+    "featured": {
+      "title": "REDESIGNING NUTRITION FACTS",
+      "summary": "A data-driven tool that makes FDA Nutrition Facts labels easier to understand.",
+      "media": [
+        {
+          "src": "/fda-app/fda-2.webp"
+        },
+        {
+          "src": "/fda-app/fda-3.webp"
+        },
+        {
+          "src": "/fda-app/fda-1.webp"
+        }
+      ],
+      "imageAlt": "Mockups of an FDA spec app and redesigned label.",
+      "actionText": "View Project"
+    }
+  },
+  {
+    "kind": "external",
+    "id": "social-linkedin",
+    "href": "https://www.linkedin.com/in/owencaldwell/",
+    "hoverId": "hover-linkedin",
+    "title": "LinkedIn",
+    "menuLabel": "LinkedIn",
+    "menu": {
+      "social": true
+    }
+  },
+  {
+    "kind": "external",
+    "id": "social-resume",
+    "href": "/caldwell-resume.pdf",
+    "hoverId": "hover-resume",
+    "title": "Resume",
+    "menuLabel": "Resume",
+    "menu": {
+      "social": true
+    }
+  }
+]

@@ -1,0 +1,6 @@
+pnpm optimize:assets
+
+if ! git diff --quiet -- public; then
+  echo "Optimized assets changed in public/. Review and commit them, then push again."
+  exit 1
+fi

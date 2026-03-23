@@ -2,5 +2,15 @@
   "extends": [
     "next/core-web-vitals",
     "next/typescript"
+  ],
+  "overrides": [
+    {
+      "files": ["lib/zoomjs/**/*.js"],
+      "rules": {
+        "@typescript-eslint/no-unused-expressions": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-this-alias": "off"
+      }
+    }
   ]
 }

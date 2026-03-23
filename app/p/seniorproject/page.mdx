@@ -1,5 +1,5 @@
-export const title = "Learning to Paint";
-export const date = "May 9th, 2025";
+export const title = "IDM@NYU Senior Thesis";
+export const date = "March 23rd, 2026 (updated)";
 export const slug = "seniorproject";
 export const tag = "experimentation";
 
@@ -10,22 +10,34 @@ export const metadata = {
   },
 };
 
+import MdxImageCarousel from "@/app/components/mdx-image-carousel";
+
 <div className="pt-12 pb-6">
   <h1>{title}</h1>
   <div className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
     {date}
   </div>
 </div>
+<MdxImageCarousel
+  images={[
+    { src: "/senior-project/sp-painting-1.webp", alt: "Painting 1" },
+    { src: "/senior-project/sp-painting-2.webp", alt: "Painting 2" },
+    { src: "/senior-project/sp-painting-3.webp", alt: "Painting 3" },
+    { src: "/senior-project/sp-painting-4.webp", alt: "Painting 4" },
+    { src: "/senior-project/sp-painting-5.webp", alt: "Painting 5" },
+    { src: "/senior-project/sp-painting-6.webp", alt: "Painting 6" },
+    { src: "/senior-project/sp-painting-7.webp", alt: "Painting 7" },
+    { src: "/senior-project/sp-painting-8.webp", alt: "Painting 8" },
+  ]}
+/>
+**Learning to Paint** began as a question: what would it look like to build a new process for a traditional medium using computational tools?
 
-<iframe
-  src="https://owen-caldwell.github.io/seniorproject/"
-  height="600"
-  allowFullScreen
-  className="w-full"
-></iframe>
+The series draws on L-systems — a mathematical formalism developed by biologist Aristid Lindenmayer to model organic growth — repurposed here as a tool for abstract composition. **A program written in p5.js assigns randomized rules that function as painting instructions**. Applied recursively, those rules generate unexpected sequences, which are then rendered as constellations of dots on a painted field.
 
-_Learning to Paint_ is my attempt at creating a new process for a traditional artform, inspired by digital artists like Rafaël Rozendaal (b. 1980) and the early generative works of Vera Molnar (b. 1924). In this series of paintings, I’ve reconfigured Lindenmayer systems (L-systems) as a tool for abstract composition. L-systems are a mathematical formalism originally developed by biologist Aristid Lindenmayer to model organic growth. They operate through simple rules that, when applied recursively, generate intricate, evolving structures.
+The results are hard to predict. Structures emerge that suggest leaves, skeletal forms, flowers — organic shapes that have no explicit origin in the code. That gap between computational process and visual outcome is what the work is really about.
 
-My program written with the p5.js JavaScript library, assigns randomized rules that serve as painting instructions. The system iteratively expands these rules, producing unexpected sequences that are then rendered as constellations of dots on a field. Despite their computational origin, organic patterns frequently emerge—some compositions evoke leaves, skeletal structures, or flowers.
+The project is influenced by digital artists who treat the screen as a compositional surface — particularly Rafaël Rozendaal and the early generative work of Vera Molnar, whose systematic approach to image-making remains a touchstone for anyone working at the intersection of art and computation.
 
-[See Project Documentation](/p/seniorproject/documentation)
+[See Documentation](/p/seniorproject/documentation)
+
+[See GitHub Repository](https://github.com/owen-caldwell/seniorproject)

@@ -41,17 +41,18 @@ export function validateStaticEntries(): string[] {
   }
 
   for (const entry of entries) {
-    if (!entry.href) errors.push(`Entry "${entry.id}" has empty href`);
+    const href = entry.href?.trim();
     if (
       entry.kind === "external" &&
-      !isExternalUrl(entry.href) &&
-      !entry.href.startsWith("/")
+      href &&
+      !isExternalUrl(href) &&
+      !href.startsWith("/")
     ) {
       errors.push(
         `External entry "${entry.id}" has invalid href "${entry.href}"`,
       );
     }
-    if (entry.kind === "internal" && !entry.href.startsWith("/p/")) {
+    if (entry.kind === "internal" && href && !href.startsWith("/p/")) {
       errors.push(`Internal entry "${entry.id}" should use /p/ href`);
     }
     if (entry.kind === "internal" && !VALID_LAYOUTS.includes(entry.layout)) {
@@ -60,25 +61,15 @@ export function validateStaticEntries(): string[] {
       );
     }
     if (entry.featured) {
-      if (!entry.featured.images.length) {
+      if (!entry.featured.media.length) {
         errors.push(
-          `Featured entry "${entry.id}" must include at least one image`,
+          `Featured entry "${entry.id}" must include at least one media item`,
         );
       }
       if (!entry.featured.summary.trim()) {
         errors.push(`Featured entry "${entry.id}" must include a summary`);
       }
     }
-  }
-
-  const featuredOrders = entries
-    .filter((entry) => entry.featured)
-    .map((entry) => String(entry.featured?.order));
-  const duplicateFeaturedOrders = duplicates(featuredOrders);
-  if (duplicateFeaturedOrders.length) {
-    errors.push(
-      `Duplicate featured orders: ${duplicateFeaturedOrders.join(", ")}`,
-    );
   }
 
   return errors;
@@ -92,6 +83,7 @@ export function validateAgainstMdxManifest(
   const manifestBySlug = new Map(manifest.map((entry) => [entry.slug, entry]));
 
   for (const entry of internalEntries) {
+    if (!entry.mdxPath?.trim()) continue;
     const mdx = manifestBySlug.get(entry.slug);
     if (!mdx) {
       errors.push(

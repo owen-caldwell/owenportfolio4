@@ -1,6 +1,5 @@
 import { ARCHIVE_ITEMS } from "./archive-items";
-import { EXTERNAL_ENTRIES } from "./external-entries";
-import { INTERNAL_ENTRIES } from "./internal-entries";
+import { CONTENT_ENTRIES } from "./content-entries";
 import type {
   ArchiveListItem,
   ContentEntry,
@@ -8,22 +7,7 @@ import type {
   EntryTag,
 } from "./entry-types";
 
-const ALL_ENTRIES: ContentEntry[] = [...INTERNAL_ENTRIES, ...EXTERNAL_ENTRIES];
-
-function sortByOrder<T>(
-  values: T[],
-  getOrder: (value: T) => number | undefined,
-): T[] {
-  return [...values].sort((a, b) => {
-    const orderA = getOrder(a);
-    const orderB = getOrder(b);
-
-    if (orderA === undefined && orderB === undefined) return 0;
-    if (orderA === undefined) return 1;
-    if (orderB === undefined) return -1;
-    return orderA - orderB;
-  });
-}
+const ALL_ENTRIES: ContentEntry[] = CONTENT_ENTRIES;
 
 export function getAllEntries(): ContentEntry[] {
   return ALL_ENTRIES.filter((entry) => entry.isVisible !== false);
@@ -44,17 +28,15 @@ export function getExternalEntries() {
 }
 
 export function getHomeWorkEntries(): ContentEntry[] {
-  const workEntries = getAllEntries().filter(
-    (entry) => entry.menu?.homeWorkOrder !== undefined,
-  );
-  return sortByOrder(workEntries, (entry) => entry.menu?.homeWorkOrder);
+  return getAllEntries().filter((entry) => entry.menu?.homeWork === true);
 }
 
 export function getSocialEntries(): ContentEntry[] {
-  const socialEntries = getAllEntries().filter(
-    (entry) => entry.menu?.socialOrder !== undefined,
-  );
-  return sortByOrder(socialEntries, (entry) => entry.menu?.socialOrder);
+  return getAllEntries().filter((entry) => entry.menu?.social === true);
+}
+
+export function getClientEntries(): ContentEntry[] {
+  return getAllEntries().filter((entry) => entry.menu?.client === true);
 }
 
 export function getArchiveEntries(): ArchiveListItem[] {
@@ -62,17 +44,11 @@ export function getArchiveEntries(): ArchiveListItem[] {
 }
 
 export function getMobileFeaturedMenuEntries(): ContentEntry[] {
-  const mobileEntries = getAllEntries().filter(
-    (entry) => entry.menu?.mobileFeaturedOrder !== undefined,
-  );
-  return sortByOrder(mobileEntries, (entry) => entry.menu?.mobileFeaturedOrder);
+  return getAllEntries().filter((entry) => entry.menu?.mobileFeatured === true);
 }
 
 export function getFeaturedEntries(): ContentEntry[] {
-  const featuredEntries = getAllEntries().filter(
-    (entry) => entry.featured !== undefined,
-  );
-  return sortByOrder(featuredEntries, (entry) => entry.featured?.order);
+  return getAllEntries().filter((entry) => entry.featured !== undefined);
 }
 
 export function getEntryByHoverId(id: string | null | undefined) {

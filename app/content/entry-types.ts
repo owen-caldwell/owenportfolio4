@@ -7,18 +7,21 @@ export type EntryTag =
 export type EntryLayout = "article" | "gallery" | "custom";
 
 export type EntryMenuPlacement = {
-  homeWorkOrder?: number;
-  socialOrder?: number;
-  mobileFeaturedOrder?: number;
+  homeWork?: boolean;
+  social?: boolean;
+  client?: boolean;
+  mobileFeatured?: boolean;
 };
 
 export type EntryFeaturedPlacement = {
-  order: number;
   title?: string;
   summary: string;
-  images: string[];
+  media: Array<{
+    src: string;
+    poster?: string;
+  }>;
   imageAlt: string;
-  actionText: string;
+  actionText?: string;
 };
 
 export type ArchiveListItem = {
@@ -31,7 +34,7 @@ export type ArchiveListItem = {
 export type EntryBase = {
   id: string;
   title: string;
-  href: string;
+  href?: string;
   hoverId: string;
   tag?: EntryTag;
   menuLabel?: string;
@@ -44,7 +47,7 @@ export type InternalEntry = EntryBase & {
   kind: "internal";
   slug: string;
   layout: EntryLayout;
-  mdxPath: string;
+  mdxPath?: string;
 };
 
 export type ExternalEntry = EntryBase & {

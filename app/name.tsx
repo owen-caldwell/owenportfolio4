@@ -3,7 +3,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getMobileFeaturedMenuEntries } from "./content/entries";
+import {
+  getEntryByHoverId,
+  getMobileFeaturedMenuEntries,
+} from "./content/entries";
 import { useHomeView } from "./components/home-view-context";
 import { useMenuHover } from "./components/menu-hover-context";
 import MenuOrb from "./components/menu-orb";
@@ -40,8 +43,16 @@ export function Name() {
   const hoveredOrbColor = colorForMenuHoverId(hoveredMenuLinkId);
   const orbColor = hoveredOrbColor ?? currentOrbColor;
   const isFeaturedHoverTarget = hoveredMenuLinkId?.startsWith("featured-link-");
-  const showHeaderOrb =
-    !isDesktopViewport || hoveredMenuLinkId === null || isFeaturedHoverTarget;
+  const hoveredEntry = hoveredMenuLinkId
+    ? getEntryByHoverId(hoveredMenuLinkId)
+    : null;
+  // Hide header orb when a link-side orb is shown (work/client hovers + archive control).
+  const showLinkOrbInsteadOfHeader =
+    isDesktopViewport &&
+    hoveredMenuLinkId !== null &&
+    !isFeaturedHoverTarget &&
+    (hoveredMenuLinkId === "work-archive" || hoveredEntry !== null);
+  const showHeaderOrb = !showLinkOrbInsteadOfHeader;
   const recommendedRoutes = getMobileFeaturedMenuEntries();
   const isActiveProjectRoute = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
@@ -168,25 +179,33 @@ export function Name() {
             transition={{ duration: 0.18, ease: "easeOut" }}
           >
             <ul className="space-y-1">
-              {recommendedRoutes.map((route) => (
-                <li key={route.id}>
-                  {(() => {
-                    const isActive = isActiveProjectRoute(route.href);
-                    const activeColor = fadedColor(colorForHref(route.href));
-                    const label = route.menuLabel ?? route.title;
+              {recommendedRoutes.map((route) => {
+                const href = route.href?.trim();
+                const label = route.menuLabel ?? route.title;
+                if (!href) {
+                  return (
+                    <li key={route.id}>
+                      <span className="inline-flex leading-[1.6] items-center gap-2">
+                        {label}
+                      </span>
+                    </li>
+                  );
+                }
+                const isActive = isActiveProjectRoute(href);
+                const activeColor = fadedColor(colorForHref(href));
 
-                    return (
-                      <Link
-                        href={route.href}
-                        className="inline-flex leading-[1.6] items-center gap-2 hover:underline underline-offset-2"
-                        style={isActive ? { color: activeColor } : undefined}
-                      >
-                        <span>{label}</span>
-                      </Link>
-                    );
-                  })()}
-                </li>
-              ))}
+                return (
+                  <li key={route.id}>
+                    <Link
+                      href={href}
+                      className="inline-flex leading-[1.6] items-center gap-2 hover:underline underline-offset-2"
+                      style={isActive ? { color: activeColor } : undefined}
+                    >
+                      <span>{label}</span>
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </motion.div>
         ) : null}
