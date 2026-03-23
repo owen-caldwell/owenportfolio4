@@ -2,6 +2,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { NextRequest, NextResponse } from "next/server";
 import type { ContentEntry, EntryLayout, EntryTag } from "@/app/content/entry-types";
+import { isLocalCmsEnabled } from "@/app/local-cms/allowed";
 
 const ENTRIES_PATH = path.join(
   process.cwd(),
@@ -12,16 +13,6 @@ const VALID_TAGS: EntryTag[] = ["caseStudy", "education", "experimentation", "ar
 
 function isExternalUrl(href: string) {
   return /^https?:\/\//.test(href);
-}
-
-function isLocalCmsEnabled(request: NextRequest): boolean {
-  if (process.env.NODE_ENV === "production") return false;
-  const host = request.headers.get("host") ?? "";
-  return (
-    host.startsWith("localhost:") ||
-    host.startsWith("127.0.0.1:") ||
-    host.startsWith("[::1]:")
-  );
 }
 
 function removeUndefined<T>(value: T): T {
@@ -126,7 +117,7 @@ function validateEntries(entries: ContentEntry[]): string[] {
 
 export async function GET(request: NextRequest) {
   if (!isLocalCmsEnabled(request)) {
-    return NextResponse.json({ error: "Local CMS is only available on localhost in development." }, { status: 403 });
+    return new NextResponse(null, { status: 404 });
   }
 
   const raw = await fs.readFile(ENTRIES_PATH, "utf8");
@@ -136,7 +127,7 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   if (!isLocalCmsEnabled(request)) {
-    return NextResponse.json({ error: "Local CMS is only available on localhost in development." }, { status: 403 });
+    return new NextResponse(null, { status: 404 });
   }
 
   const body = (await request.json()) as { entries?: ContentEntry[] };
