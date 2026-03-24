@@ -15,10 +15,7 @@ import type { ContentEntry } from "./content/entry-types";
 import { useHomeView } from "./components/home-view-context";
 import { useMenuHover } from "./components/menu-hover-context";
 import MenuOrb, { MenuOrbOutline } from "./components/menu-orb";
-import {
-  colorForHref,
-  DEFAULT_ORB_COLOR,
-} from "./page-tags";
+import { colorForHref, DEFAULT_ORB_COLOR } from "./page-tags";
 
 type HomeColumnProps = {
   className?: string;
@@ -187,7 +184,7 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
 
   return (
     <div
-      className={`flex flex-col pt-12 md:w-[450px] mx-auto md:mx-0 ${className}`.trim()}
+      className={`flex flex-col pt-8 md:pt-12 md:w-[450px] mx-auto md:mx-0 ${className}`.trim()}
     >
       <AnimatePresence mode="wait" initial={false}>
         {homeColumnPanel === "archive" ? (
@@ -272,17 +269,19 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="flex flex-col"
           >
-            <div className="leading-[1.7] tracking-relaxed font-[family-name:var(--font-baskerville)] md:text-base">
-              I&apos;m <b>Owen Caldwell</b>, an NYC-based <i>Design Engineer</i>{" "}
-              and New York University graduate. Right now I&apos;m creating fictional
-              UIs for an{" "}
+            <small className="text-neutral-500 dark:text-neutral-500 mb-2">ABOUT ME</small>
+            <div className="leading-[1.6] md:leading-[1.7] tracking-relaxed font-[family-name:var(--font-baskerville)] md:text-[1.12rem]">
+              
+              I&apos;m <b>Owen Caldwell</b>, an NYC-based{" "}
               <Link
+                target="_blank"
+                rel="noreferrer"
                 href="https://deadline.com/2026/02/keir-gilchrist-elsie-fisher-to-star-nightflirt-horror-movie-1236727303/"
                 style={{ color: DEFAULT_ORB_COLOR }}
               >
-                indie horror film
-              </Link>
-              .
+                Design Engineer
+              </Link>{" "}
+              and New York University graduate.
               <br />
               <br />
               My{" "}
@@ -292,13 +291,23 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
               >
                 thesis{" "}
               </Link>{" "}
-              at NYU was a generative art installation that used Lindenmayer
-              systems to draw paintings.
+              at NYU is a generative art installation that uses{" "}
+              <i>Lindenmayer systems</i> to draw paintings.
               <br />
-              <br />I also run a <b>web design and development</b> practice that I&apos;m very proud of.
-              </div>
+              <br />I also run a solo <b>web design and development</b>{" "}
+              practice. Currently building fictional UIs for an{" "}
+              <Link
+                target="_blank"
+                rel="noreferrer"
+                href="https://deadline.com/2026/02/keir-gilchrist-elsie-fisher-to-star-nightflirt-horror-movie-1236727303/"
+                style={{ color: DEFAULT_ORB_COLOR }}
+              >
+                indie horror film
+              </Link>
+            </div>
 
-            <ul className="mt-4 pt-4 pb-4 border-t border-neutral-200 dark:border-neutral-800">
+            <ul className="my-4 py-4 border-y border-neutral-200 dark:border-neutral-800">
+              <small className="text-neutral-500 dark:text-neutral-500">PROJECTS + CLIENTS</small>
               {homeWorkEntries.map((entry) => {
                 const href = entry.href?.trim();
                 const isActive = isActiveEntry(entry);
@@ -309,6 +318,7 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
                   !isActive;
                 if (!href) {
                   return (
+                    
                     <li key={entry.id}>
                       <span
                         className={
@@ -348,7 +358,8 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
                 );
               })}
             </ul>
-            <ul className="space-y-1 pt-8">
+            <small className="text-neutral-500 dark:text-neutral-500">SOCIAL</small>
+            <ul className="space-x-2 flex mb-16 md:mb-0">
               {socialEntries.map((entry) => {
                 const href = entry.href?.trim();
                 if (!href) {

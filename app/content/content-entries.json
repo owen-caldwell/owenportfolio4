@@ -17,7 +17,8 @@
         }
       ],
       "imageAlt": "a portfolio website with a gallery of images.",
-      "actionText": "Visit website"
+      "actionText": "Visit website",
+      "title": "FINN CRAWFORD"
     }
   },
   {
@@ -27,7 +28,7 @@
     "hoverId": "hover-hunter",
     "title": "Hunter Mathews",
     "featured": {
-      "title": "Hunter Mathews",
+      "title": "HUNTER MATHEWS",
       "summary": "Design & Development for Hunter Matthews's fine art photography portfolio",
       "media": [
         {
@@ -63,18 +64,6 @@
         {
           "src": "/senior-project/seniorproject-1.mp4",
           "poster": "/senior-project/seniorproject-1.poster.webp"
-        },
-        {
-          "src": "/senior-project/seniorproject-2.webp"
-        },
-        {
-          "src": "/senior-project/seniorproject-3.webp"
-        },
-        {
-          "src": "/senior-project/seniorproject-4.webp"
-        },
-        {
-          "src": "/senior-project/seniorproject-5.webp"
         }
       ],
       "imageAlt": "Various images containing complex organic-looking forms made up of black dots on a white 1:1 page.",
@@ -102,9 +91,6 @@
       "media": [
         {
           "src": "/lacima/lacima-1.webp"
-        },
-        {
-          "src": "/lacima/lacima-2.webp"
         }
       ],
       "imageAlt": "The La Cima Elementary school website home and about page.",
@@ -115,7 +101,7 @@
     "kind": "internal",
     "id": "project-fda-app",
     "slug": "fda-app",
-    "href": "/p/fda-redesign",
+    "href": "/p/fda-app",
     "hoverId": "hover-fda",
     "title": "Redesigning FDA’s Nutrition Facts Label",
     "menuLabel": "Redesigning Nutrition Facts",
@@ -131,17 +117,12 @@
       "media": [
         {
           "src": "/fda-app/fda-2.webp"
-        },
-        {
-          "src": "/fda-app/fda-3.webp"
-        },
-        {
-          "src": "/fda-app/fda-1.webp"
         }
       ],
       "imageAlt": "Mockups of an FDA spec app and redesigned label.",
       "actionText": "View Project"
-    }
+    },
+    "tag": "experimentation"
   },
   {
     "kind": "external",
@@ -150,7 +131,7 @@
     "hoverId": "hover-jenna",
     "title": "Jenna Ferayo",
     "featured": {
-      "title": "Jenna Ferayo",
+      "title": "JENNA FERAYO",
       "summary": "Design & Development, Portfolio",
       "media": [
         {
@@ -163,6 +144,31 @@
     },
     "menu": {
       "homeWork": true
+    }
+  },
+  {
+    "kind": "internal",
+    "id": "project-photography",
+    "slug": "photography",
+    "href": "/p/photography",
+    "hoverId": "hover-photography",
+    "title": "Photography",
+    "layout": "article",
+    "mdxPath": "app/p/photography/page.mdx",
+    "tag": "caseStudy",
+    "menu": {
+      "homeWork": true
+    },
+    "featured": {
+      "title": "PHOTOGRAPHY",
+      "summary": "Favorite photos taken throughout my life.",
+      "media": [
+        {
+          "src": "/photography/photo-4.webp"
+        }
+      ],
+      "imageAlt": "Favorite photos taken throughout my life.",
+      "actionText": "View photos"
     }
   },
   {
@@ -184,12 +190,6 @@
       "media": [
         {
           "src": "/forth/forth-2.webp"
-        },
-        {
-          "src": "/forth/forth-1.webp"
-        },
-        {
-          "src": "/forth/forth-3.webp"
         }
       ],
       "imageAlt": "A 3D render of celestial forms in the darkness of space.",

@@ -558,92 +558,64 @@ export default function LocalCmsClient() {
               </label>
 
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-medium">Media</h3>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      updateSelected((entry) => ({
-                        ...entry,
-                        featured: entry.featured
-                          ? {
-                              ...entry.featured,
-                              media: [...entry.featured.media, { src: "" }],
-                            }
-                          : entry.featured,
-                      }))
-                    }
-                    className="rounded border px-2 py-1 text-sm"
-                  >
-                    + Media
-                  </button>
-                </div>
-                {selectedEntry.featured.media.map((media, mediaIndex) => (
-                  <div
-                    key={`${selectedEntry.id}-media-${mediaIndex}`}
-                    className="grid gap-2 rounded border p-2 md:grid-cols-[1fr_1fr_auto]"
-                  >
+                <h3 className="text-sm font-medium">Featured media</h3>
+                <p className="text-xs text-neutral-600 dark:text-neutral-400">
+                  One image or video path (shown on the home featured column).
+                </p>
+                <div className="grid gap-2 rounded border p-2 md:grid-cols-2">
+                  <label className="text-sm md:col-span-2">
+                    Src
                     <input
-                      value={media.src}
+                      value={selectedEntry.featured.media[0]?.src ?? ""}
                       onChange={(event) =>
-                        updateSelected((entry) => ({
-                          ...entry,
-                          featured: entry.featured
-                            ? {
-                                ...entry.featured,
-                                media: entry.featured.media.map((item, idx) =>
-                                  idx === mediaIndex
-                                    ? { ...item, src: event.target.value }
-                                    : item,
-                                ),
-                              }
-                            : entry.featured,
-                        }))
+                        updateSelected((entry) => {
+                          if (!entry.featured) return entry;
+                          const prev = entry.featured.media[0] ?? { src: "" };
+                          return {
+                            ...entry,
+                            featured: {
+                              ...entry.featured,
+                              media: [
+                                {
+                                  ...prev,
+                                  src: event.target.value,
+                                },
+                              ],
+                            },
+                          };
+                        })
                       }
                       placeholder="/path/image.webp or /path/video.mp4"
-                      className="rounded border px-2 py-1 text-sm"
+                      className="mt-1 w-full rounded border px-2 py-1 text-sm"
                     />
+                  </label>
+                  <label className="text-sm md:col-span-2">
+                    Poster (optional, for video)
                     <input
-                      value={media.poster ?? ""}
+                      value={selectedEntry.featured.media[0]?.poster ?? ""}
                       onChange={(event) =>
-                        updateSelected((entry) => ({
-                          ...entry,
-                          featured: entry.featured
-                            ? {
-                                ...entry.featured,
-                                media: entry.featured.media.map((item, idx) =>
-                                  idx === mediaIndex
-                                    ? { ...item, poster: event.target.value || undefined }
-                                    : item,
-                                ),
-                              }
-                            : entry.featured,
-                        }))
+                        updateSelected((entry) => {
+                          if (!entry.featured) return entry;
+                          const prev = entry.featured.media[0] ?? { src: "" };
+                          return {
+                            ...entry,
+                            featured: {
+                              ...entry.featured,
+                              media: [
+                                {
+                                  ...prev,
+                                  poster: event.target.value || undefined,
+                                },
+                              ],
+                            },
+                          };
+                        })
                       }
-                      placeholder="poster (optional)"
-                      className="rounded border px-2 py-1 text-sm"
+                      placeholder="poster path (optional)"
+                      className="mt-1 w-full rounded border px-2 py-1 text-sm"
                     />
-                    <button
-                      type="button"
-                      onClick={() =>
-                        updateSelected((entry) => ({
-                          ...entry,
-                          featured: entry.featured
-                            ? {
-                                ...entry.featured,
-                                media: entry.featured.media.filter(
-                                  (_, idx) => idx !== mediaIndex,
-                                ),
-                              }
-                            : entry.featured,
-                        }))
-                      }
-                      className="rounded border px-2 py-1 text-sm text-red-700 dark:text-red-300"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                ))}
+                  </label>
+                </div>
               </div>
             </>
           )}

@@ -70,14 +70,21 @@ export function Name() {
     return () => media.removeEventListener("change", updateViewport);
   }, []);
 
+  const mobileGlassCellClass =
+    "rounded-full border border-black/5 bg-white/60 px-3 py-1 text-[#242424] backdrop-blur-xl dark:border-white/15 dark:bg-[#141414]/60 dark:text-neutral-200";
+  const mobileGlassMdReset =
+    "md:rounded-none md:border-0 md:bg-transparent md:px-0 md:py-0 md:backdrop-blur-none";
+
   return (
     <motion.header
       layoutRoot
-      className="sticky top-2 z-40 -mx-1 mb-2 rounded-full border border-black/5 bg-white/60 px-3 py-2 text-[#242424] backdrop-blur-xl dark:border-white/15 dark:bg-[#141414]/60 dark:text-neutral-200 md:static md:mx-0 md:mb-0 md:rounded-none md:border-0 md:bg-transparent md:px-0 md:py-0 md:backdrop-blur-none font-[family-name:var(--font-geist-sans)]"
+      className="sticky top-2 z-40 -mx-1 mb-2 md:static md:mx-0 md:mb-0 font-[family-name:var(--font-geist-sans)]"
     >
-      <div className="flex items-start gap-2">
-        <div className="flex gap-2">
-          <span className="relative z-20 mt-[4.5px] inline-flex h-2.5 w-2.5 shrink-0">
+      <div className="flex items-start justify-between gap-2">
+        <div
+          className={`flex min-w-0 gap-2 ${mobileGlassCellClass} ${mobileGlassMdReset}`}
+        >
+          <span className="relative z-20 mt-[4.5px] inline-flex h-2.5 w-2.5">
             {showHeaderOrb && <MenuOrb color={orbColor} />}
           </span>
           <nav className="flex text-sm">
@@ -145,9 +152,11 @@ export function Name() {
         </div>
 
         {isHomePage ? (
-          <button
+          <motion.button
             type="button"
-            className="ml-auto md:hidden text-sm tracking-wide"
+            className={`shrink-0 md:hidden text-sm tracking-wide ${mobileGlassCellClass}`}
+            whileTap={{ scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 520, damping: 32 }}
             onClick={() => {
               const nextView = mobileView === "featured" ? "index" : "featured";
               if (nextView === "index") {
@@ -163,8 +172,21 @@ export function Name() {
                 : "Switch to gallery"
             }
           >
-            {mobileView === "featured" ? "INDEX" : "GALLERY"}
-          </button>
+            <span className="inline-block min-w-[3.5rem] text-center">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={mobileView === "featured" ? "info" : "gallery"}
+                  className="inline-block"
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {mobileView === "featured" ? "Info" : "Gallery"}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+          </motion.button>
         ) : null}
       </div>
 

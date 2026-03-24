@@ -21,7 +21,9 @@ export default function PhotographyGallery({
   if (!count) return null;
 
   return (
-    <div className={`my-6 columns-1 gap-4 sm:columns-2 lg:columns-3 ${className}`.trim()}>
+    <div
+      className={`my-6 columns-1 gap-4 sm:columns-2 lg:columns-3 ${className}`.trim()}
+    >
       {images.map((image) => (
         <div
           key={image.src}

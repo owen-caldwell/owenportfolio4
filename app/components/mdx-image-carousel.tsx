@@ -54,23 +54,10 @@ export default function MdxImageCarousel({
                 height={900}
                 sizes="100vw"
                 className="block h-auto w-full max-h-[850px] object-contain"
-                zoom={false}
               />
             </motion.div>
           );
         })}
-        <button
-          type="button"
-          onClick={() => goTo(index - 1)}
-          aria-label="Previous image"
-          className="absolute inset-y-0 left-0 z-10 w-1/2 cursor-w-resize bg-transparent"
-        />
-        <button
-          type="button"
-          onClick={() => goTo(index + 1)}
-          aria-label="Next image"
-          className="absolute inset-y-0 right-0 z-10 w-1/2 cursor-e-resize bg-transparent"
-        />
       </div>
 
       <div className="flex items-center justify-between gap-3">

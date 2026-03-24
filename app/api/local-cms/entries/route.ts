@@ -37,6 +37,14 @@ function removeUndefined<T>(value: T): T {
   return cleaned as T;
 }
 
+/** Featured column uses only the first asset; trim extras so saves stay consistent. */
+function normalizeFeaturedMedia(entries: ContentEntry[]) {
+  for (const entry of entries) {
+    if (!entry.featured?.media?.length) continue;
+    entry.featured.media = [entry.featured.media[0]];
+  }
+}
+
 function validateEntries(entries: ContentEntry[]): string[] {
   const errors: string[] = [];
   const ids = new Set<string>();
@@ -100,14 +108,12 @@ function validateEntries(entries: ContentEntry[]): string[] {
       if (!entry.featured.imageAlt?.trim()) {
         errors.push(`${prefix}: featured.imageAlt is required`);
       }
-      if (!entry.featured.media.length) {
-        errors.push(`${prefix}: featured.media must include at least one item`);
-      } else {
-        entry.featured.media.forEach((media, mediaIndex) => {
-          if (!media.src?.trim()) {
-            errors.push(`${prefix}: featured.media[${mediaIndex}].src is required`);
-          }
-        });
+      if (entry.featured.media.length !== 1) {
+        errors.push(
+          `${prefix}: featured.media must contain exactly one image or video`,
+        );
+      } else if (!entry.featured.media[0]?.src?.trim()) {
+        errors.push(`${prefix}: featured.media[0].src is required`);
       }
     }
   });
@@ -136,6 +142,7 @@ export async function PUT(request: NextRequest) {
   }
 
   const cleanedEntries = removeUndefined(body.entries);
+  normalizeFeaturedMedia(cleanedEntries);
   const errors = validateEntries(cleanedEntries);
   if (errors.length) {
     return NextResponse.json({ error: "Validation failed.", errors }, { status: 400 });

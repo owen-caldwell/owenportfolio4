@@ -61,9 +61,9 @@ export function validateStaticEntries(): string[] {
       );
     }
     if (entry.featured) {
-      if (!entry.featured.media.length) {
+      if (entry.featured.media.length !== 1) {
         errors.push(
-          `Featured entry "${entry.id}" must include at least one media item`,
+          `Featured entry "${entry.id}" must include exactly one featured.media item`,
         );
       }
       if (!entry.featured.summary.trim()) {

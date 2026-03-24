@@ -7,9 +7,17 @@ img[data-action="zoom"] {
 .zoom-img-wrap {
   position: relative;
   z-index: 666;
-  -webkit-transition: all 300ms;
-       -o-transition: all 300ms;
-          transition: all 300ms;
+  -webkit-transition: -webkit-transform 300ms;
+       -o-transition:         -o-transform 300ms;
+          transition:         transform 300ms;
+}
+
+/* After open (and while swapping carousel slides), layout changes must not animate. */
+.zoom-img-wrap.zoom-img-wrap--static,
+.zoom-img-wrap.zoom-img-wrap--static .zoom-img {
+  -webkit-transition: none !important;
+       -o-transition: none !important;
+          transition: none !important;
 }
 img.zoom-img {
   cursor: pointer;
@@ -38,4 +46,79 @@ img.zoom-img {
 .zoom-overlay-open,
 .zoom-overlay-transitioning {
   cursor: default;
+}
+
+@media (prefers-color-scheme: dark) {
+  .zoom-overlay {
+    background: #141414;
+  }
+}
+
+.zoom-carousel-nav {
+  position: fixed;
+  z-index: 5001;
+  left: 50%;
+  bottom: 1.25rem;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.35rem 0.5rem 0.35rem 0.35rem;
+  border-radius: 9999px;
+  background: rgba(250, 250, 250, 0.92);
+  color: #1a1a1a;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  pointer-events: auto;
+  font-size: 0.8125rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-color-scheme: dark) {
+  .zoom-carousel-nav {
+    background: rgba(32, 32, 32, 0.9);
+    color: #ededed;
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.zoom-carousel-nav__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 9999px;
+  background: transparent;
+  color: inherit;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.zoom-carousel-nav__btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  .zoom-carousel-nav__btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+}
+
+.zoom-carousel-nav__btn:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.zoom-carousel-nav__counter {
+  min-width: 3.25rem;
+  text-align: center;
+  padding: 0 0.15rem;
+  opacity: 0.9;
 }

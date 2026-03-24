@@ -16,7 +16,7 @@ type HomeViewContextValue = {
 const HomeViewContext = createContext<HomeViewContextValue | null>(null);
 
 export function HomeViewProvider({ children }: { children: React.ReactNode }) {
-  const [mobileView, setMobileView] = useState<HomeMobileView>("index");
+  const [mobileView, setMobileView] = useState<HomeMobileView>("featured");
   const [homeColumnPanel, setHomeColumnPanel] =
     useState<HomeColumnPanel>("default");
 

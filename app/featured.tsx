@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import {
@@ -12,6 +11,24 @@ import {
 import { useHomeView } from "./components/home-view-context";
 import { useMenuHover } from "./components/menu-hover-context";
 import SmartImage from "./components/smart-image";
+
+function ExternalLinkArrowIcon({
+  className = "h-3 w-3 shrink-0",
+}: {
+  className?: string;
+}) {
+  return (
+    <svg aria-hidden viewBox="0 0 12 12" className={className} fill="none">
+      <path
+        d="M2.5 9.5L9.5 2.5M4 2.5H9.5V8"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
 type HoverableLinkProps = {
   href: string;
@@ -39,6 +56,45 @@ function isUsableFeaturedHref(trimmedHref: string): boolean {
   return /^https?:\/\//.test(trimmedHref) || trimmedHref.startsWith("/");
 }
 
+function isExternalFeaturedHref(href: string): boolean {
+  return /^https?:\/\//.test(href);
+}
+
+type FeaturedDestinationLinkProps = {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+  "aria-label"?: string;
+};
+
+function FeaturedDestinationLink({
+  href,
+  children,
+  className = "",
+  "aria-label": ariaLabel,
+}: FeaturedDestinationLinkProps) {
+  const external = isExternalFeaturedHref(href);
+  const mergedClass = `block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${className}`.trim();
+  if (external) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+        className={mergedClass}
+        aria-label={ariaLabel}
+      >
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link href={href} className={mergedClass} aria-label={ariaLabel}>
+      {children}
+    </Link>
+  );
+}
+
 export default function Featured() {
   const { hoveredMenuLinkId, setHoveredMenuLinkId } = useMenuHover();
   const { mobileView } = useHomeView();
@@ -46,9 +102,6 @@ export default function Featured() {
   const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
   const activeProjectIdRef = useRef("featured-link-0");
   const links = useMemo(() => getFeaturedEntries(), []);
-  const [galleryIndexes, setGalleryIndexes] = useState<Record<string, number>>(
-    {},
-  );
   const [activeProjectId, setActiveProjectId] = useState("featured-link-0");
   const [isDesktopViewport, setIsDesktopViewport] = useState<boolean | null>(
     null,
@@ -122,24 +175,22 @@ export default function Featured() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Preload featured media so first gallery swap does not flash.
     for (const link of links) {
-      const mediaItems = link.featured?.media ?? [];
-      for (const mediaItem of mediaItems) {
-        if (isVideoMedia(mediaItem.src)) {
-          const video = document.createElement("video");
-          video.preload = "metadata";
-          video.src = mediaItem.src;
-          video.load();
-          if (mediaItem.poster) {
-            const poster = new Image();
-            poster.src = mediaItem.poster;
-          }
-          continue;
+      const first = link.featured?.media?.[0];
+      if (!first?.src) continue;
+      if (isVideoMedia(first.src)) {
+        const video = document.createElement("video");
+        video.preload = "metadata";
+        video.src = first.src;
+        video.load();
+        if (first.poster) {
+          const poster = new Image();
+          poster.src = first.poster;
         }
-        const image = new Image();
-        image.src = mediaItem.src;
+        continue;
       }
+      const image = new Image();
+      image.src = first.src;
     }
   }, [links]);
 
@@ -195,7 +246,7 @@ export default function Featured() {
   }, [hasMounted, setHoveredMenuLinkId]);
 
   const shellClassName =
-    "relative z-50 flex flex-col gap-20 overflow-y-auto h-dvh overscroll-y-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:-my-20 md:py-10";
+    "relative z-50 flex flex-col gap-20 overflow-y-auto md:h-dvh md:overscroll-y-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:-my-20 md:py-10";
 
   if (!hasMounted) {
     return (
@@ -224,7 +275,10 @@ export default function Featured() {
         const actionText = featured.actionText?.trim();
         const showActionButton =
           Boolean(actionText) && isUsableFeaturedHref(actionHref);
-        const currentIndex = galleryIndexes[link.id] ?? 0;
+        const destinationHref = isUsableFeaturedHref(actionHref)
+          ? actionHref
+          : "";
+        const primaryMedia = featured.media[0];
         const projectId = `featured-link-${index}`;
         const hoveredFeaturedLinkId = hoveredMenuLinkId?.startsWith(
           "featured-link-",
@@ -241,6 +295,34 @@ export default function Featured() {
             ? (!isDesktopListHovered && !hasLinkedHover) ||
               visualActiveId !== projectId
             : activeProjectId !== projectId;
+        const dimDescriptionAndAction =
+          isDesktopViewport === true && isInactive;
+
+        const mediaBlock = primaryMedia ? (
+          isVideoMedia(primaryMedia.src) ? (
+            <video
+              src={primaryMedia.src}
+              poster={primaryMedia.poster}
+              className="block h-auto w-full"
+              muted
+              loop
+              autoPlay
+              playsInline
+              preload="metadata"
+              aria-label={featured.imageAlt}
+            />
+          ) : (
+            <SmartImage
+              alt={featured.imageAlt}
+              src={primaryMedia.src}
+              width={1600}
+              height={900}
+              className="block h-auto w-full"
+              sizes="100vw"
+              zoom={false}
+            />
+          )
+        ) : null;
 
         return (
           <div
@@ -250,103 +332,65 @@ export default function Featured() {
             }}
             data-project-id={projectId}
             className="flex flex-col md:snap-center"
-            onClickCapture={(event) => {
-              if (!isInactive) return;
-              event.preventDefault();
-              event.stopPropagation();
-              activateProject(index, projectId);
-            }}
           >
-            <button
-              type="button"
-              onClick={() => {
-                if (isInactive) {
-                  activateProject(index, projectId);
-                  return;
-                }
-                setGalleryIndexes((prev) => ({
-                  ...prev,
-                  [link.id]: (currentIndex + 1) % featured.media.length,
-                }));
-              }}
-              className="w-full cursor-pointer text-left"
-              aria-label={`Advance ${featured.title ?? link.title} gallery`}
-            >
+            <div className="w-full">
               <div className="relative w-full overflow-hidden bg-neutral-200 dark:bg-neutral-800">
-                {featured.media.map((mediaItem, mediaIndex) => {
-                  const mediaIsVideo = isVideoMedia(mediaItem.src);
-                  const isCurrentMedia = mediaIndex === currentIndex;
-                  return (
-                    <motion.div
-                      key={`${mediaItem.src}-${mediaIndex}`}
-                      className={
-                        isCurrentMedia
-                          ? "relative w-full"
-                          : "absolute inset-0 w-full pointer-events-none"
-                      }
-                      aria-hidden={!isCurrentMedia}
-                      initial={false}
-                      animate={{ opacity: isCurrentMedia ? 1 : 0 }}
-                      transition={{ duration: 0.22, ease: "easeOut" }}
-                    >
-                      {mediaIsVideo ? (
-                        <video
-                          src={mediaItem.src}
-                          poster={mediaItem.poster}
-                          className="block h-auto w-full"
-                          muted
-                          loop
-                          autoPlay
-                          playsInline
-                          preload="metadata"
-                          aria-label={featured.imageAlt}
-                        />
-                      ) : (
-                        <SmartImage
-                          alt={featured.imageAlt}
-                          src={mediaItem.src}
-                          width={1600}
-                          height={900}
-                          className="block h-auto w-full"
-                          sizes="100vw"
-                          zoom={false}
-                        />
-                      )}
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </button>
-            <div className="flex flex-col pt-2">
-              <div className="flex items-center justify-between gap-2">
-                <h3 className="text-base">{featured.title ?? link.title}</h3>
-                {featured.media.length > 1 && (
-                  <span className="text-sm tabular-nums">
-                    {currentIndex + 1}/{featured.media.length}
-                  </span>
+                {destinationHref ? (
+                  <FeaturedDestinationLink
+                    href={destinationHref}
+                    aria-label={`Open project: ${featured.title ?? link.title}`}
+                  >
+                    {mediaBlock}
+                  </FeaturedDestinationLink>
+                ) : (
+                  mediaBlock
                 )}
               </div>
+            </div>
+            <div
+              className="flex flex-col pt-2 text-sm md:text-base tracking-relaxed"
+              onClickCapture={(event) => {
+                if (!isInactive) return;
+                event.preventDefault();
+                event.stopPropagation();
+                activateProject(index, projectId);
+              }}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <h3>{featured.title ?? link.title}</h3>
+              </div>
               <div>
-                <div className={isInactive ? "text-neutral-500" : ""}>
+                <div
+                  className={
+                    dimDescriptionAndAction ? "text-neutral-500" : ""
+                  }
+                >
                   <ReactMarkdown>{featured.summary}</ReactMarkdown>
                 </div>
                 {showActionButton ? (
-                  /^https?:\/\//.test(actionHref) ? (
+                  isExternalFeaturedHref(actionHref) ? (
                     <a
                       href={actionHref}
                       target="_blank"
                       rel="noreferrer"
                       className={`relative z-20 underline-offset-2 inline-flex items-center gap-2 hover:underline ${
-                        isInactive ? "text-neutral-500" : "text-blue-500"
+                        dimDescriptionAndAction
+                          ? "text-neutral-500"
+                          : "text-blue-500"
                       }`.trim()}
                     >
-                      <span>{actionText}</span>
+                      <span className="inline-flex items-center gap-1.5">
+                        <span>{actionText}</span>
+                        <ExternalLinkArrowIcon />
+                      </span>
                     </a>
                   ) : (
                     <HoverableLink
                       href={actionHref}
                       className={
-                        isInactive ? "text-neutral-500" : "text-blue-500"
+                        dimDescriptionAndAction
+                          ? "text-neutral-500"
+                          : "text-blue-500"
                       }
                     >
                       {actionText}
@@ -358,7 +402,7 @@ export default function Featured() {
           </div>
         );
       })}
-      <div aria-hidden className="h-[35vh] shrink-0" />
+      <div aria-hidden className="md:h-[35vh] shrink-0" />
     </div>
   );
 }

@@ -42,7 +42,9 @@ export default function ProjectOverlayLayout({
           transition={{ duration: 0.32, ease: "easeOut" }}
         >
           <div data-right-scroll-content className="max-w-[700px]">
-            <div className={desktopContentClass}>{children}</div>
+            <div className={desktopContentClass} data-zoom-gallery-scope>
+              {children}
+            </div>
           </div>
         </motion.div>
       </div>
@@ -54,7 +56,9 @@ export default function ProjectOverlayLayout({
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.24, ease: "easeOut" }}
       >
-        <div className={mobileContentClass}>{children}</div>
+        <div className={mobileContentClass} data-zoom-gallery-scope>
+          {children}
+        </div>
       </motion.div>
     </>
   );
