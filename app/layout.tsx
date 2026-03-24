@@ -6,7 +6,8 @@ import { Name } from "./name";
 import { HomeViewProvider } from "./components/home-view-context";
 import { MenuHoverProvider } from "./components/menu-hover-context";
 import ImageZoomInit from "./components/image-zoom-init";
-import { Analytics } from "@vercel/analytics/next"
+import LazysizesInit from "./components/lazysizes-init";
+import { Analytics } from "@vercel/analytics/next";
 // import Footer from "./components/footer"
 
 export const metadata: Metadata = {
@@ -71,6 +72,7 @@ export default function RootLayout({
       )}
     >
       <body className="antialiased m-4 max-w-[1200px] md:mx-auto md:px-4">
+        <LazysizesInit />
         <ImageZoomInit />
         <HomeViewProvider>
           <MenuHoverProvider>

@@ -1,6 +1,7 @@
 "use client";
 
-import Image from "next/image";
+import SmartImage from "@/app/components/smart-image";
+import { motion } from "framer-motion";
 import { useState } from "react";
 
 type CarouselImage = {
@@ -22,7 +23,6 @@ export default function MdxImageCarousel({
 
   if (!count) return null;
 
-  const current = images[index];
   const goTo = (nextIndex: number) => {
     if (!count) return;
     const normalized = ((nextIndex % count) + count) % count;
@@ -31,16 +31,34 @@ export default function MdxImageCarousel({
 
   return (
     <div className={`my-6 space-y-3 ${className}`.trim()}>
-      <div className="relative overflow-hidden rounded-lg border border-black/10 dark:border-white/10">
-        <Image
-          src={current.src}
-          alt={current.alt}
-          width={1600}
-          height={1200}
-          sizes="(max-width: 768px) 100vw, 800px"
-          priority={index === 0}
-          className="h-auto w-full max-h-[850px] object-contain"
-        />
+      <div className="relative w-full overflow-hidden border border-black/10 dark:border-white/10 rounded-lg">
+        {images.map((image, imageIndex) => {
+          const isCurrent = imageIndex === index;
+          return (
+            <motion.div
+              key={`${image.src}-${imageIndex}`}
+              className={
+                isCurrent
+                  ? "relative w-full"
+                  : "absolute inset-0 w-full pointer-events-none"
+              }
+              aria-hidden={!isCurrent}
+              initial={false}
+              animate={{ opacity: isCurrent ? 1 : 0 }}
+              transition={{ duration: 0.22, ease: "easeOut" }}
+            >
+              <SmartImage
+                src={image.src}
+                alt={image.alt}
+                width={1600}
+                height={900}
+                sizes="100vw"
+                className="block h-auto w-full max-h-[850px] object-contain"
+                zoom={false}
+              />
+            </motion.div>
+          );
+        })}
         <button
           type="button"
           onClick={() => goTo(index - 1)}
@@ -79,7 +97,6 @@ export default function MdxImageCarousel({
           </button>
         </div>
       </div>
-
     </div>
   );
 }

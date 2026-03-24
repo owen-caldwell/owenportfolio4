@@ -1,15 +1,8 @@
 "use client";
 
-import {
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import NextImage from "next/image";
 import ReactMarkdown from "react-markdown";
 import {
   getFeaturedEntries,
@@ -18,6 +11,7 @@ import {
 } from "./content/entries";
 import { useHomeView } from "./components/home-view-context";
 import { useMenuHover } from "./components/menu-hover-context";
+import SmartImage from "./components/smart-image";
 
 type HoverableLinkProps = {
   href: string;
@@ -201,15 +195,11 @@ export default function Featured() {
   }, [hasMounted, setHoveredMenuLinkId]);
 
   const shellClassName =
-    "relative z-50 flex flex-col gap-20 scroll-smooth overflow-y-auto h-dvh overscroll-y-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:-my-20 md:py-10 md:snap-y md:snap-mandatory";
+    "relative z-50 flex flex-col gap-20 overflow-y-auto h-dvh overscroll-y-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:-my-20 md:py-10";
 
   if (!hasMounted) {
     return (
-      <div
-        ref={scrollContainerRef}
-        className={shellClassName}
-        aria-hidden
-      />
+      <div ref={scrollContainerRef} className={shellClassName} aria-hidden />
     );
   }
 
@@ -312,14 +302,14 @@ export default function Featured() {
                           aria-label={featured.imageAlt}
                         />
                       ) : (
-                        <NextImage
+                        <SmartImage
                           alt={featured.imageAlt}
                           src={mediaItem.src}
                           width={1600}
                           height={900}
                           className="block h-auto w-full"
                           sizes="100vw"
-                          priority={mediaIndex === 0}
+                          zoom={false}
                         />
                       )}
                     </motion.div>
