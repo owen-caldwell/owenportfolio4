@@ -17,3 +17,14 @@ export default function MenuOrb({ color, className = "" }: MenuOrbProps) {
     />
   );
 }
+
+/** Open ring — same size/placement as `MenuOrb`, for the current-route indicator. */
+export function MenuOrbOutline({ color, className = "" }: MenuOrbProps) {
+  return (
+    <span
+      className={`relative z-50 inline-flex h-2.5 w-2.5 shrink-0 rounded-full border-[1.5px] border-solid bg-transparent pointer-events-none ${className}`.trim()}
+      style={{ borderColor: color }}
+      aria-hidden
+    />
+  );
+}

@@ -14,7 +14,7 @@ import {
 import type { ContentEntry } from "./content/entry-types";
 import { useHomeView } from "./components/home-view-context";
 import { useMenuHover } from "./components/menu-hover-context";
-import MenuOrb from "./components/menu-orb";
+import MenuOrb, { MenuOrbOutline } from "./components/menu-orb";
 import {
   colorForHref,
   DEFAULT_ORB_COLOR,
@@ -110,7 +110,10 @@ function HoverableLink({
         <span>{children}</span>
         {variant === "arrow" && <ExternalLinkArrowIcon />}
       </span>
-      {shouldRenderOrb && isHovered && (
+      {shouldRenderOrb && isActive && (
+        <MenuOrbOutline color={orbColor} className="mt-px" />
+      )}
+      {shouldRenderOrb && isHovered && !isActive && (
         <MenuOrb color={orbColor} className="mt-px" />
       )}
     </Link>
@@ -220,7 +223,7 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
                 >
                   <Link
                     href={item.href}
-                    className={`${
+                    className={`inline-flex items-center gap-2 ${
                       hasActiveArchiveLink &&
                       !isActiveProject(item.href) &&
                       hoveredArchiveHref !== item.href
@@ -243,10 +246,18 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
                       handleOptimisticInternalNavigation(item.href)
                     }
                   >
-                    {item.label}{" "}
-                    <span className="text-neutral-500 dark:text-neutral-500">
-                      {item.descriptor}
+                    <span>
+                      {item.label}{" "}
+                      <span className="text-neutral-500 dark:text-neutral-500">
+                        {item.descriptor}
+                      </span>
                     </span>
+                    {isDesktopViewport && isActiveProject(item.href) ? (
+                      <MenuOrbOutline
+                        color={colorForHref(item.href)}
+                        className="mt-px shrink-0"
+                      />
+                    ) : null}
                   </Link>
                 </motion.li>
               ))}
