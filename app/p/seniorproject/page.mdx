@@ -12,7 +12,25 @@ export const metadata = {
 
 import MdxImageCarousel from "@/app/components/mdx-image-carousel";
 
+<video
+  src="/senior-project/liveexample.mov"
+  poster="/senior-project/liveexample.poster.webp"
+  autoPlay
+  loop
+  muted
+  playsInline
+  style={{
+    width: "100%",
+    borderRadius: "0.5rem",
+    margin: "2rem 0",
+    boxShadow: "0 2px 32px 0 rgba(0,0,0,0.10)"
+  }}
+/>
+
+
 **Learning to Paint** began as a question: what would it look like to build a new process for a traditional medium using computational tools?
+
+[See GitHub Repository](https://github.com/owen-caldwell/seniorproject)
 
 <MdxImageCarousel
   images={[
@@ -28,10 +46,8 @@ import MdxImageCarousel from "@/app/components/mdx-image-carousel";
 />
 The series draws on L-systems — a mathematical formalism developed by biologist Aristid Lindenmayer to model organic growth — repurposed here as a tool for abstract composition. **A program written in p5.js assigns randomized rules that function as painting instructions**. Applied recursively, those rules generate unexpected sequences, which are then rendered as constellations of dots on a painted field.
 
+![A text document containing L-system instructions-- a very long list of seemingly random characters.](/senior-project/lsystem-info.webp)
+
 The results are hard to predict. Structures emerge that suggest leaves, skeletal forms, flowers — organic shapes that have no explicit origin in the code. That gap between computational process and visual outcome is what the work is really about.
 
 The project is influenced by digital artists who treat the screen as a compositional surface — particularly Rafaël Rozendaal and the early generative work of Vera Molnar, whose systematic approach to image-making remains a touchstone for anyone working at the intersection of art and computation.
-
-[See Documentation](/p/seniorproject/documentation)
-
-[See GitHub Repository](https://github.com/owen-caldwell/seniorproject)

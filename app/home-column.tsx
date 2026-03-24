@@ -269,19 +269,12 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="flex flex-col"
           >
-            <small className="text-neutral-500 dark:text-neutral-500 mb-2">ABOUT ME</small>
+            <small className="text-neutral-500 dark:text-neutral-500 mb-2">
+              ABOUT ME
+            </small>
             <div className="leading-[1.6] md:leading-[1.7] tracking-relaxed font-[family-name:var(--font-baskerville)] md:text-[1.12rem]">
-              
-              I&apos;m <b>Owen Caldwell</b>, an NYC-based{" "}
-              <Link
-                target="_blank"
-                rel="noreferrer"
-                href="https://deadline.com/2026/02/keir-gilchrist-elsie-fisher-to-star-nightflirt-horror-movie-1236727303/"
-                style={{ color: DEFAULT_ORB_COLOR }}
-              >
-                Design Engineer
-              </Link>{" "}
-              and New York University graduate.
+              I&apos;m <b>Owen Caldwell</b>, an NYC-based Design Engineer and
+              New York University graduate.
               <br />
               <br />
               My{" "}
@@ -307,7 +300,9 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
             </div>
 
             <ul className="my-4 py-4 border-y border-neutral-200 dark:border-neutral-800">
-              <small className="text-neutral-500 dark:text-neutral-500">PROJECTS + CLIENTS</small>
+              <small className="text-neutral-500 dark:text-neutral-500">
+                PROJECTS + CLIENTS
+              </small>
               {homeWorkEntries.map((entry) => {
                 const href = entry.href?.trim();
                 const isActive = isActiveEntry(entry);
@@ -318,7 +313,6 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
                   !isActive;
                 if (!href) {
                   return (
-                    
                     <li key={entry.id}>
                       <span
                         className={
@@ -358,7 +352,9 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
                 );
               })}
             </ul>
-            <small className="text-neutral-500 dark:text-neutral-500">SOCIAL</small>
+            <small className="text-neutral-500 dark:text-neutral-500">
+              SOCIAL
+            </small>
             <ul className="space-x-2 flex mb-16 md:mb-0">
               {socialEntries.map((entry) => {
                 const href = entry.href?.trim();
