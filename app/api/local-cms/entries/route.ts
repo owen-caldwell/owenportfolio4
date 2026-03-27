@@ -9,7 +9,7 @@ const ENTRIES_PATH = path.join(
   "app/content/content-entries.json",
 );
 const VALID_LAYOUTS: EntryLayout[] = ["article", "gallery", "custom"];
-const VALID_TAGS: EntryTag[] = ["caseStudy", "education", "experimentation", "archive"];
+const VALID_TAGS: EntryTag[] = ["caseStudy", "experimentation", "archive"];
 
 function isExternalUrl(href: string) {
   return /^https?:\/\//.test(href);

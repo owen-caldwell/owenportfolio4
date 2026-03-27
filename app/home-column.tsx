@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import {
   getArchiveEntries,
   getClientEntries,
@@ -16,6 +16,7 @@ import { useHomeView } from "./components/home-view-context";
 import { useMenuHover } from "./components/menu-hover-context";
 import MenuOrb, { MenuOrbOutline } from "./components/menu-orb";
 import { colorForHref, DEFAULT_ORB_COLOR } from "./page-tags";
+import TagKey from "./components/tag-key";
 
 type HomeColumnProps = {
   className?: string;
@@ -74,6 +75,14 @@ function HoverableLink({
   const isHovered =
     !isActive && (hoveredMenuLinkId === id || mappedHoverId === id);
   const orbColor = colorForHref(href);
+  const isExternalHref = /^https?:\/\//.test(href);
+
+  const linkColorStyle = (): CSSProperties | undefined => {
+    if (isDimmed) return undefined;
+    if (!isDesktopViewport) return { color: DEFAULT_ORB_COLOR };
+    if (isActive || isHovered) return { color: orbColor };
+    return { color: DEFAULT_ORB_COLOR };
+  };
 
   const startHover = () => {
     if (isActive) return;
@@ -90,12 +99,10 @@ function HoverableLink({
         isActive
           ? "md:cursor-default"
           : isDimmed
-            ? "md:text-neutral-400 md:dark:text-neutral-500"
+            ? "text-neutral-400 dark:text-neutral-500"
             : ""
       }`}
-      style={
-        isDesktopViewport && isDimmed ? undefined : { color: DEFAULT_ORB_COLOR }
-      }
+      style={linkColorStyle()}
       onMouseEnter={startHover}
       onMouseLeave={isActive ? undefined : endHover}
       onFocus={startHover}
@@ -105,6 +112,13 @@ function HoverableLink({
     >
       <span className="inline-flex items-center gap-1.5">
         <span>{children}</span>
+        {!isDesktopViewport && !isExternalHref ? (
+          <span
+            className="inline-block h-2 w-2 shrink-0 rounded-full"
+            style={{ backgroundColor: orbColor }}
+            aria-hidden
+          />
+        ) : null}
         {variant === "arrow" && <ExternalLinkArrowIcon />}
       </span>
       {shouldRenderOrb && isActive && (
@@ -284,8 +298,8 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
               >
                 thesis{" "}
               </Link>{" "}
-              at NYU is a generative art installation that uses{" "}
-              <i>Lindenmayer systems</i> to draw paintings.
+              at NYU is a generative art installation that uses algorithms
+              modeled after organic growth to draw paintings.
               <br />
               <br />I also run a solo <b>web design and development</b>{" "}
               practice. Currently building fictional UIs for an{" "}
@@ -297,6 +311,7 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
               >
                 indie horror film
               </Link>
+              .
             </div>
 
             <ul className="my-4 py-4 border-y border-neutral-200 dark:border-neutral-800">
@@ -351,6 +366,9 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
                   </li>
                 );
               })}
+              <div className="mb-1 mt-4">
+                <TagKey />
+              </div>
             </ul>
             <small className="text-neutral-500 dark:text-neutral-500">
               SOCIAL

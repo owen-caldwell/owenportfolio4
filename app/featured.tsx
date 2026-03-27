@@ -11,6 +11,7 @@ import {
 import { useHomeView } from "./components/home-view-context";
 import { useMenuHover } from "./components/menu-hover-context";
 import SmartImage from "./components/smart-image";
+import { colorForHref } from "./page-tags";
 
 function ExternalLinkArrowIcon({
   className = "h-3 w-3 shrink-0",
@@ -27,23 +28,6 @@ function ExternalLinkArrowIcon({
         strokeLinejoin="round"
       />
     </svg>
-  );
-}
-
-type HoverableLinkProps = {
-  href: string;
-  children: React.ReactNode;
-  className?: string;
-};
-
-function HoverableLink({ href, children, className = "" }: HoverableLinkProps) {
-  return (
-    <Link
-      href={href}
-      className={`relative z-20 underline-offset-2 inline-flex items-center gap-2 hover:underline ${className}`.trim()}
-    >
-      <span>{children}</span>
-    </Link>
   );
 }
 
@@ -74,7 +58,8 @@ function FeaturedDestinationLink({
   "aria-label": ariaLabel,
 }: FeaturedDestinationLinkProps) {
   const external = isExternalFeaturedHref(href);
-  const mergedClass = `block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${className}`.trim();
+  const mergedClass =
+    `block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${className}`.trim();
   if (external) {
     return (
       <a
@@ -272,9 +257,6 @@ export default function Featured() {
         if (!link.featured) return null;
         const featured = link.featured;
         const actionHref = (link.href ?? "").trim();
-        const actionText = featured.actionText?.trim();
-        const showActionButton =
-          Boolean(actionText) && isUsableFeaturedHref(actionHref);
         const destinationHref = isUsableFeaturedHref(actionHref)
           ? actionHref
           : "";
@@ -297,6 +279,13 @@ export default function Featured() {
             : activeProjectId !== projectId;
         const dimDescriptionAndAction =
           isDesktopViewport === true && isInactive;
+        const actionTagColor = colorForHref(actionHref);
+        const titleText = featured.title ?? link.title;
+        const titleDimmed = dimDescriptionAndAction;
+        const titleLinkClass = "relative z-20 inline-flex items-center gap-2";
+        const titleLinkStyle = titleDimmed
+          ? undefined
+          : ({ color: actionTagColor } as const);
 
         const mediaBlock = primaryMedia ? (
           isVideoMedia(primaryMedia.src) ? (
@@ -357,46 +346,61 @@ export default function Featured() {
               }}
             >
               <div className="flex items-center justify-between gap-2">
-                <h3>{featured.title ?? link.title}</h3>
+                <h3 className="text-base font-normal leading-snug">
+                  {destinationHref ? (
+                    isExternalFeaturedHref(destinationHref) ? (
+                      <a
+                        href={destinationHref}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={`${titleLinkClass} ${
+                          titleDimmed ? "text-neutral-500" : ""
+                        }`.trim()}
+                        style={titleLinkStyle}
+                        aria-label={`Open project: ${titleText}`}
+                      >
+                        <span>{titleText}</span>
+                        <ExternalLinkArrowIcon />
+                      </a>
+                    ) : (
+                      <Link
+                        href={destinationHref}
+                        className={`${titleLinkClass} ${
+                          titleDimmed ? "text-neutral-500" : ""
+                        }`.trim()}
+                        style={titleLinkStyle}
+                        aria-label={`Open project: ${titleText}`}
+                      >
+                        <span>{titleText}</span>
+                        <span
+                          className={`inline-block h-2 w-2 shrink-0 rounded-full ${
+                            titleDimmed ? "bg-neutral-400 dark:bg-neutral-500" : ""
+                          }`.trim()}
+                          style={
+                            titleDimmed
+                              ? undefined
+                              : { backgroundColor: actionTagColor }
+                          }
+                          aria-hidden
+                        />
+                      </Link>
+                    )
+                  ) : (
+                    <span
+                      className={titleDimmed ? "text-neutral-500" : ""}
+                      style={titleLinkStyle}
+                    >
+                      {titleText}
+                    </span>
+                  )}
+                </h3>
               </div>
               <div>
                 <div
-                  className={
-                    dimDescriptionAndAction ? "text-neutral-500" : ""
-                  }
+                  className={dimDescriptionAndAction ? "text-neutral-500" : ""}
                 >
                   <ReactMarkdown>{featured.summary}</ReactMarkdown>
                 </div>
-                {showActionButton ? (
-                  isExternalFeaturedHref(actionHref) ? (
-                    <a
-                      href={actionHref}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={`relative z-20 underline-offset-2 inline-flex items-center gap-2 hover:underline ${
-                        dimDescriptionAndAction
-                          ? "text-neutral-500"
-                          : "text-blue-500"
-                      }`.trim()}
-                    >
-                      <span className="inline-flex items-center gap-1.5">
-                        <span>{actionText}</span>
-                        <ExternalLinkArrowIcon />
-                      </span>
-                    </a>
-                  ) : (
-                    <HoverableLink
-                      href={actionHref}
-                      className={
-                        dimDescriptionAndAction
-                          ? "text-neutral-500"
-                          : "text-blue-500"
-                      }
-                    >
-                      {actionText}
-                    </HoverableLink>
-                  )
-                ) : null}
               </div>
             </div>
           </div>

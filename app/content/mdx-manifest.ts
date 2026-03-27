@@ -15,7 +15,6 @@ const PROJECTS_DIR = path.join(ROOT, "app", "p");
 
 const TAG_VALUES = new Set<EntryTag>([
   "caseStudy",
-  "education",
   "experimentation",
   "archive",
 ]);

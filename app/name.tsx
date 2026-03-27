@@ -41,7 +41,8 @@ export function Name() {
     ? colorForHref(`/p/${currentProjectSlug}`)
     : DEFAULT_ORB_COLOR;
   const hoveredOrbColor = colorForMenuHoverId(hoveredMenuLinkId);
-  const orbColor = hoveredOrbColor ?? currentOrbColor;
+  const orbColor =
+    isDesktopViewport && hoveredOrbColor ? hoveredOrbColor : currentOrbColor;
   const isFeaturedHoverTarget = hoveredMenuLinkId?.startsWith("featured-link-");
   const hoveredEntry = hoveredMenuLinkId
     ? getEntryByHoverId(hoveredMenuLinkId)
@@ -85,7 +86,9 @@ export function Name() {
           className={`flex min-w-0 gap-2 ${mobileGlassCellClass} ${mobileGlassMdReset}`}
         >
           <span className="relative z-20 mt-[4.5px] inline-flex h-2.5 w-2.5">
-            {showHeaderOrb && <MenuOrb color={orbColor} />}
+            {showHeaderOrb && (
+              <MenuOrb color={orbColor} sharedLayout={isDesktopViewport} />
+            )}
           </span>
           <nav className="flex text-sm">
             <Link

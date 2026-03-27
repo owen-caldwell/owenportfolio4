@@ -1,6 +1,5 @@
 export type EntryTag =
   | "caseStudy"
-  | "education"
   | "experimentation"
   | "archive";
 

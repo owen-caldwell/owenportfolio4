@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Featured from "./featured";
 import HomeColumn from "./home-column";
+import TagKey from "./components/tag-key";
 import { useHomeView } from "./components/home-view-context";
 
 const transition = { duration: 0.3, ease: [0.22, 1, 0.36, 1] as const };
@@ -69,6 +70,9 @@ export default function HomePageLayout() {
                   data-right-scroll
                   className="block py-10 md:max-w-[50vw] md:relative md:z-50"
                 >
+                  <div className="mb-4 md:hidden">
+                    <TagKey />
+                  </div>
                   <div data-right-scroll-content data-zoom-gallery-scope>
                     <Featured />
                   </div>

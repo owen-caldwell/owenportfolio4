@@ -45,40 +45,12 @@
   },
   {
     "kind": "internal",
-    "id": "project-seniorproject",
-    "slug": "seniorproject",
-    "hoverId": "hover-senior",
-    "title": "Learning to Paint",
-    "menuLabel": "IDM@NYU Senior Project",
-    "tag": "experimentation",
-    "layout": "article",
-    "mdxPath": "app/p/seniorproject/page.mdx",
-    "menu": {
-      "homeWork": true,
-      "mobileFeatured": true
-    },
-    "featured": {
-      "title": "LEARNING TO PAINT",
-      "summary": "A generative art project, exhibited at Brooklyn for IDM@NYU",
-      "media": [
-        {
-          "src": "/senior-project/seniorproject-1.mp4",
-          "poster": "/senior-project/seniorproject-1.poster.webp"
-        }
-      ],
-      "imageAlt": "Various images containing complex organic-looking forms made up of black dots on a white 1:1 page.",
-      "actionText": "View Project"
-    },
-    "href": "/p/seniorproject"
-  },
-  {
-    "kind": "internal",
     "id": "project-lacima",
     "slug": "lacima",
     "href": "/p/lacima",
     "hoverId": "hover-lacima",
     "title": "La Cima Charter School",
-    "tag": "education",
+    "tag": "caseStudy",
     "layout": "article",
     "mdxPath": "app/p/lacima/page.mdx",
     "menu": {
@@ -94,35 +66,8 @@
         }
       ],
       "imageAlt": "The La Cima Elementary school website home and about page.",
-      "actionText": "View Project"
+      "actionText": "View project"
     }
-  },
-  {
-    "kind": "internal",
-    "id": "project-fda-app",
-    "slug": "fda-app",
-    "href": "/p/fda-app",
-    "hoverId": "hover-fda",
-    "title": "Redesigning FDA’s Nutrition Facts Label",
-    "menuLabel": "Redesigning Nutrition Facts",
-    "layout": "article",
-    "mdxPath": "app/p/fda-app/page.mdx",
-    "menu": {
-      "homeWork": true,
-      "mobileFeatured": true
-    },
-    "featured": {
-      "title": "REDESIGNING NUTRITION FACTS",
-      "summary": "A data-driven tool that makes FDA Nutrition Facts labels easier to understand.",
-      "media": [
-        {
-          "src": "/fda-app/fda-2.webp"
-        }
-      ],
-      "imageAlt": "Mockups of an FDA spec app and redesigned label.",
-      "actionText": "View Project"
-    },
-    "tag": "experimentation"
   },
   {
     "kind": "external",
@@ -148,28 +93,31 @@
   },
   {
     "kind": "internal",
-    "id": "project-photography",
-    "slug": "photography",
-    "href": "/p/photography",
-    "hoverId": "hover-photography",
-    "title": "Photography",
+    "id": "project-seniorproject",
+    "slug": "seniorproject",
+    "hoverId": "hover-senior",
+    "title": "Learning to Paint",
+    "menuLabel": "IDM@NYU Senior Project",
+    "tag": "experimentation",
     "layout": "article",
-    "mdxPath": "app/p/photography/page.mdx",
-    "tag": "caseStudy",
+    "mdxPath": "app/p/seniorproject/page.mdx",
     "menu": {
-      "homeWork": true
+      "homeWork": true,
+      "mobileFeatured": true
     },
     "featured": {
-      "title": "PHOTOGRAPHY",
-      "summary": "Favorite photos taken throughout my life.",
+      "title": "LEARNING TO PAINT",
+      "summary": "A generative art project, exhibited at Brooklyn for IDM@NYU",
       "media": [
         {
-          "src": "/photography/photo-4.webp"
+          "src": "/senior-project/seniorproject-1.mp4",
+          "poster": "/senior-project/seniorproject-1.poster.webp"
         }
       ],
-      "imageAlt": "Favorite photos taken throughout my life.",
-      "actionText": "View photos"
-    }
+      "imageAlt": "Various images containing complex organic-looking forms made up of black dots on a white 1:1 page.",
+      "actionText": "View project"
+    },
+    "href": "/p/seniorproject"
   },
   {
     "kind": "internal",
@@ -193,9 +141,61 @@
         }
       ],
       "imageAlt": "A 3D render of celestial forms in the darkness of space.",
-      "actionText": "View Project"
+      "actionText": "View project"
     },
-    "tag": "experimentation"
+    "tag": "archive"
+  },
+  {
+    "kind": "internal",
+    "id": "project-fda-app",
+    "slug": "fda-app",
+    "href": "/p/fda-app",
+    "hoverId": "hover-fda",
+    "title": "Redesigning FDA’s Nutrition Facts Label",
+    "menuLabel": "Redesigning Nutrition Facts",
+    "layout": "article",
+    "mdxPath": "app/p/fda-app/page.mdx",
+    "menu": {
+      "homeWork": true,
+      "mobileFeatured": true
+    },
+    "featured": {
+      "title": "REDESIGNING NUTRITION FACTS",
+      "summary": "A data-driven tool that makes FDA Nutrition Facts labels easier to understand.",
+      "media": [
+        {
+          "src": "/fda-app/fda-2.webp"
+        }
+      ],
+      "imageAlt": "Mockups of an FDA spec app and redesigned label.",
+      "actionText": "View project"
+    },
+    "tag": "caseStudy"
+  },
+  {
+    "kind": "internal",
+    "id": "project-photography",
+    "slug": "photography",
+    "href": "/p/photography",
+    "hoverId": "hover-photography",
+    "title": "Photography",
+    "layout": "article",
+    "mdxPath": "app/p/photography/page.mdx",
+    "menu": {
+      "homeWork": true
+    },
+    "featured": {
+      "title": "PHOTOGRAPHY",
+      "summary": "Favorite photos taken throughout my life.",
+      "media": [
+        {
+          "src": "/photography/photo-4.webp"
+        }
+      ],
+      "imageAlt": "Favorite photos taken throughout my life.",
+      "actionText": "View photos"
+    },
+    "tag": "archive"
   },
   {
     "kind": "external",

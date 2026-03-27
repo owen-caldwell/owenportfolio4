@@ -72,7 +72,7 @@ Both entry types can participate in:
   hoverId: "work-your-hover-id",
   title: "Full Project Title",
   menuLabel: "Short Menu Label",
-  tag: "caseStudy", // "caseStudy" | "education" | "experimentation" | "archive"
+  tag: "caseStudy", // "caseStudy" | "experimentation" | "archive"
   layout: "article", // "article" | "gallery" | "custom"
   mdxPath: "app/p/your-slug/page.mdx",
   menu: {

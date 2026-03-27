@@ -5,14 +5,24 @@ import { motion } from "framer-motion";
 type MenuOrbProps = {
   color: string;
   className?: string;
+  /**
+   * When true, shares `layoutId` with other instances so the orb can animate between
+   * the header and menu links (desktop). Disable on mobile to avoid stray layout/color flashes.
+   */
+  sharedLayout?: boolean;
 };
 
-export default function MenuOrb({ color, className = "" }: MenuOrbProps) {
+export default function MenuOrb({
+  color,
+  className = "",
+  sharedLayout = true,
+}: MenuOrbProps) {
   return (
     <motion.span
-      layoutId="menu-ellipse"
+      {...(sharedLayout ? { layoutId: "menu-ellipse" as const } : {})}
       className={`relative z-50 inline-flex h-2.5 w-2.5 shrink-0 overflow-hidden rounded-full pointer-events-none ${className}`.trim()}
       style={{ backgroundColor: color }}
+      transition={{ backgroundColor: { duration: 0 } }}
       aria-hidden
     />
   );

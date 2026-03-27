@@ -1,22 +1,23 @@
-import {
-  getEntryByHoverId,
-  getFeaturedHrefByLinkId,
-  getTagBySlug,
-} from "./content/entries";
+import { getEntryByHoverId, getTagBySlug } from "./content/entries";
 import type { EntryTag } from "./content/entry-types";
 
 export const DEFAULT_ORB_COLOR = "#47a3f3";
-export const EXTERNAL_LINK_ORB_COLOR = "#0ea5e9";
-export const INTERNAL_LINK_FALLBACK_ORB_COLOR = "#8b8b8b";
+export const EXTERNAL_LINK_ORB_COLOR = DEFAULT_ORB_COLOR;
+export const INTERNAL_LINK_FALLBACK_ORB_COLOR = DEFAULT_ORB_COLOR;
 
 export const PAGE_TAG_COLORS = {
-  caseStudy: "#7c3aed",
-  education: "#2563eb",
-  experimentation: "#db2777",
-  archive: "#ea580c",
+  caseStudy: "#377d53",
+  experimentation: "#c21f19",
+  archive: "#f6c84a",
 } as const;
 
 export type PageTag = EntryTag;
+
+export const PAGE_TAG_LABELS: Record<PageTag, string> = {
+  caseStudy: "Case study",
+  experimentation: "Experiment",
+  archive: "Archive",
+};
 
 export function colorForTag(tag: PageTag | null | undefined): string {
   if (!tag) return INTERNAL_LINK_FALLBACK_ORB_COLOR;
@@ -40,8 +41,7 @@ export function colorForMenuHoverId(id: string | null | undefined): string | nul
   if (!id) return null;
 
   if (id.startsWith("featured-link-")) {
-    const href = getFeaturedHrefByLinkId(id);
-    return href ? colorForHref(href) : null;
+    return null;
   }
 
   const href = getEntryByHoverId(id)?.href;

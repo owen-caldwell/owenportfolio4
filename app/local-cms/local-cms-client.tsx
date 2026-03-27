@@ -29,7 +29,7 @@ const EMPTY_EXTERNAL: ContentEntry = {
 };
 
 const LAYOUTS: EntryLayout[] = ["article", "gallery", "custom"];
-const TAGS: EntryTag[] = ["caseStudy", "education", "experimentation", "archive"];
+const TAGS: EntryTag[] = ["caseStudy", "experimentation", "archive"];
 
 function cloneEntries(entries: ContentEntry[]) {
   return JSON.parse(JSON.stringify(entries)) as ContentEntry[];
