@@ -37,7 +37,9 @@ export function colorForHref(href: string): string {
   return INTERNAL_LINK_FALLBACK_ORB_COLOR;
 }
 
-export function colorForMenuHoverId(id: string | null | undefined): string | null {
+export function colorForMenuHoverId(
+  id: string | null | undefined,
+): string | null {
   if (!id) return null;
 
   if (id.startsWith("featured-link-")) {
