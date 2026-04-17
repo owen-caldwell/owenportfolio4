@@ -27,6 +27,7 @@ yarn-error.log*
 .pnpm-debug.log*
 .pnpm-store/
 .asset-optimize-cache.json
+.blur-placeholders-cache.json
 
 # local env files
 .env*.local

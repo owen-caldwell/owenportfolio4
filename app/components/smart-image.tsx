@@ -1,4 +1,13 @@
 import type { ImgHTMLAttributes } from "react";
+import blurPlaceholders from "../content/blur-placeholders.json";
+
+type BlurPlaceholderEntry = {
+  dataURL: string;
+  width: number;
+  height: number;
+};
+
+const blurManifest = blurPlaceholders as Record<string, BlurPlaceholderEntry>;
 
 /** Neutral 1×1 — no implied aspect ratio when width/height aren’t known. */
 const NEUTRAL_BLUR_PLACEHOLDER =
@@ -8,6 +17,13 @@ function parsePositiveDim(value: number | string | undefined): number | null {
   if (value == null) return null;
   const n = typeof value === "number" ? value : Number(value);
   return Number.isFinite(n) && n > 0 ? n : null;
+}
+
+function manifestKeyForSrc(src: string): string | null {
+  if (!src.startsWith("/")) return null;
+  const pathOnly = src.split("?")[0] ?? "";
+  if (!pathOnly.startsWith("/")) return null;
+  return pathOnly;
 }
 
 /** When width & height are set, match placeholder aspect ratio to the real image. */
@@ -45,8 +61,16 @@ export default function SmartImage({
   height,
   ...props
 }: SmartImageProps) {
+  const manifestKey = manifestKeyForSrc(src);
+  const entry = manifestKey ? blurManifest[manifestKey] : undefined;
+
+  const resolvedWidth = parsePositiveDim(width) ?? entry?.width;
+  const resolvedHeight = parsePositiveDim(height) ?? entry?.height;
+
   const placeholderSrc =
-    blurDataURL ?? defaultBlurPlaceholder(width, height);
+    blurDataURL ??
+    entry?.dataURL ??
+    defaultBlurPlaceholder(resolvedWidth, resolvedHeight);
 
   return (
     // Lazysizes only unveils once per element; remount when `src` changes so
@@ -54,8 +78,8 @@ export default function SmartImage({
     // eslint-disable-next-line @next/next/no-img-element
     <img
       key={src}
-      width={width}
-      height={height}
+      width={width ?? entry?.width}
+      height={height ?? entry?.height}
       {...props}
       alt={alt}
       src={placeholderSrc}
