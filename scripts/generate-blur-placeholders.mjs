@@ -41,7 +41,7 @@ function publicUrlKey(filePath) {
 }
 
 /**
- * SVG blur-up wrapper (same idea as the-blur-up-technique CodePen): tiny JPEG
+ * SVG blur-up wrapper (tiny JPEG + feGaussianBlur, classic LQIP pattern):
  * scaled to full dimensions with feGaussianBlur.
  */
 function buildBlurDataUrl(jpegBase64, origWidth, origHeight) {
