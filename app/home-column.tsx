@@ -301,12 +301,10 @@ export default function HomeColumn({ className = "" }: HomeColumnProps) {
               at NYU is a generative art installation that uses algorithms
               modeled after organic growth to draw paintings.
               <br />
-              <br />I also run a solo <b>web design and development</b>{" "}
+              <br />              I also run a solo <b>web design and development</b>{" "}
               practice. Currently building fictional UIs for an{" "}
               <Link
-                target="_blank"
-                rel="noreferrer"
-                href="https://deadline.com/2026/02/keir-gilchrist-elsie-fisher-to-star-nightflirt-horror-movie-1236727303/"
+                href="/p/nightflirt"
                 style={{ color: DEFAULT_ORB_COLOR }}
               >
                 indie horror film

@@ -1,49 +1,5 @@
 [
   {
-    "kind": "external",
-    "id": "project-finn",
-    "href": "https://finn-crawford.com",
-    "hoverId": "hover-finn",
-    "title": "Finn Crawford",
-    "menu": {
-      "homeWork": true
-    },
-    "featured": {
-      "summary": "Design & Development for Finn Crawford's professional portfolio",
-      "media": [
-        {
-          "src": "/finn-crawford/finn-1.mov",
-          "poster": "/finn-crawford/finn-1.poster.webp"
-        }
-      ],
-      "imageAlt": "a portfolio website with a gallery of images.",
-      "actionText": "Visit website",
-      "title": "FINN CRAWFORD"
-    }
-  },
-  {
-    "kind": "external",
-    "id": "project-hunter",
-    "href": "https://www.huntkats.com",
-    "hoverId": "hover-hunter",
-    "title": "Hunter Mathews",
-    "featured": {
-      "title": "HUNTER MATHEWS",
-      "summary": "Design & Development for Hunter Matthews's fine art photography portfolio",
-      "media": [
-        {
-          "src": "/hunter-mathews/hunter-1.mov",
-          "poster": "/hunter-mathews/hunter-1.poster.webp"
-        }
-      ],
-      "imageAlt": "a portfolio website with a gallery of images.",
-      "actionText": "Visit website"
-    },
-    "menu": {
-      "homeWork": true
-    }
-  },
-  {
     "kind": "internal",
     "id": "project-lacima",
     "slug": "lacima",
@@ -59,36 +15,14 @@
     },
     "featured": {
       "title": "LA CIMA ELEMENTARY",
-      "summary": "A website design and branding overhaul for an elementary school in Brooklyn, NY.",
+      "summary": "A website redesign, brand overhaul, and paid media strategy for a Brooklyn charter school — from platform selection to a 28-day Meta ad campaign that tripled daily reach.",
       "media": [
         {
-          "src": "/lacima/lacima-1.webp"
+          "src": "/lacima/lacimathumbnail.webp"
         }
       ],
-      "imageAlt": "The La Cima Elementary school website home and about page.",
+      "imageAlt": "La Cima Charter School logo mockup.",
       "actionText": "View project"
-    }
-  },
-  {
-    "kind": "external",
-    "id": "project-jenna",
-    "href": "https://www.jennaferayo.com",
-    "hoverId": "hover-jenna",
-    "title": "Jenna Ferayo",
-    "featured": {
-      "title": "JENNA FERAYO",
-      "summary": "Design & Development, Portfolio",
-      "media": [
-        {
-          "src": "/jenna-ferayo/jenna-1.mov",
-          "poster": "/jenna-ferayo/jenna-1.poster.webp"
-        }
-      ],
-      "imageAlt": "A portfolio site screenshot.",
-      "actionText": "Visit website"
-    },
-    "menu": {
-      "homeWork": true
     }
   },
   {
@@ -118,6 +52,72 @@
       "actionText": "View project"
     },
     "href": "/p/seniorproject"
+  },
+  {
+    "kind": "external",
+    "id": "project-finn",
+    "href": "https://finn-crawford.com",
+    "hoverId": "hover-finn",
+    "title": "Finn Crawford",
+    "featured": {
+      "summary": "Design & Development for Finn Crawford's professional portfolio",
+      "media": [
+        {
+          "src": "/finn-crawford/finn-1.mov",
+          "poster": "/finn-crawford/finn-1.poster.webp"
+        }
+      ],
+      "imageAlt": "a portfolio website with a gallery of images.",
+      "actionText": "Visit website",
+      "title": "FINN CRAWFORD"
+    },
+    "menu": {
+      "homeWork": true
+    }
+  },
+  {
+    "kind": "external",
+    "id": "project-hunter",
+    "href": "https://www.huntkats.com",
+    "hoverId": "hover-hunter",
+    "title": "Hunter Mathews",
+    "featured": {
+      "title": "HUNTER MATHEWS",
+      "summary": "Design & Development for Hunter Matthews's fine art photography portfolio",
+      "media": [
+        {
+          "src": "/hunter-mathews/hunter-1.mov",
+          "poster": "/hunter-mathews/hunter-1.poster.webp"
+        }
+      ],
+      "imageAlt": "a portfolio website with a gallery of images.",
+      "actionText": "Visit website"
+    },
+    "menu": {
+      "homeWork": true
+    }
+  },
+  {
+    "kind": "external",
+    "id": "project-jenna",
+    "href": "https://www.jennaferayo.com",
+    "hoverId": "hover-jenna",
+    "title": "Jenna Ferayo",
+    "featured": {
+      "title": "JENNA FERAYO",
+      "summary": "Design & Development for Jenna Ferayo's multimedia art portfolio.",
+      "media": [
+        {
+          "src": "/jenna-ferayo/jenna-1.mov",
+          "poster": "/jenna-ferayo/jenna-1.poster.webp"
+        }
+      ],
+      "imageAlt": "A portfolio site screenshot.",
+      "actionText": "Visit website"
+    },
+    "menu": {
+      "homeWork": true
+    }
   },
   {
     "kind": "internal",
